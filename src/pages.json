@@ -1,0 +1,421 @@
+{
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^wd-(.*)": "wot-design-uni/components/wd-$1/wd-$1.vue"
+    }
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置服务"
+    },
+    "scope.album": {
+      "desc": "用于上传图片时访问相册"
+    },
+    "scope.writePhotosAlbum": {
+      "desc": "用于保存图片到相册"
+    }
+  },
+  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/login/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/oneKeyLogin/oneKeyLogin",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/preview/index",
+      "style": {
+        "navigationBarTitleText": "预览",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/cropping/more",
+      "style": {
+        "navigationBarTitleText": "多图裁剪",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/print/index",
+      "style": {
+        "navigationBarTitleText": "打印预览",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/document/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/tool/index",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "工具",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/file-view/index",
+      "style": {
+        "navigationBarTitleText": "文件转换",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/camera/index",
+      "style": {
+        "navigationBarTitleText": "照相机",
+        "navigationBarBackgroundColor": "#000000",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/text-extraction/index",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationBarBackgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/translate/index",
+      "style": {
+        "navigationBarTitleText": "文字翻译",
+        "navigationBarBackgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/ai-file/index",
+      "style": {
+        "navigationBarTitleText": "图片转word",
+        "navigationBarBackgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/remove-watermark/index",
+      "style": {
+        "navigationBarTitleText": "图片去水印",
+        "navigationBarBackgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/ai-view/index",
+      "style": {
+        "navigationBarTitleText": "文件预览",
+        "navigationBarBackgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/pdf-view/index",
+      "style": {
+        "navigationBarTitleText": "文件预览",
+        "navigationBarBackgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/mathjax/index",
+      "style": {
+        "navigationBarTitleText": "公式预览",
+        "navigationBarBackgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/pdf-action/index",
+      "style": {
+        "navigationBarTitleText": "pdf转换",
+        "navigationBarBackgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/cropping/index",
+      "style": {
+        "navigationBarTitleText": "图片裁剪",
+        "navigationBarBackgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/watermark/index",
+      "style": {
+        "navigationBarTitleText": "选择图片",
+        "navigationBarBackgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/watermark-end/index",
+      "style": {
+        "navigationBarTitleText": "图片加水印",
+        "navigationBarBackgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/pic-more/index",
+      "style": {
+        "navigationBarTitleText": "选择模版",
+        "navigationBarBackgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/puzzle/index",
+      "style": {
+        "navigationBarTitleText": "拼图",
+        "navigationBarBackgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/account/index",
+      "style": {
+        "navigationBarTitleText": "账号",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/my/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/move/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/message/index",
+      "style": {
+        "navigationBarTitleText": "消息与通知",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/pic-transform/index",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/test-paper/index",
+      "style": {
+        "navigationBarTitleText": "试卷去手写",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/detect/index",
+      "style": {
+        "navigationBarTitleText": "选择计数类型",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/detect-view/index",
+      "style": {
+        "navigationBarTitleText": "计数结果",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/authority/index",
+      "style": {
+        "navigationBarTitleText": "权限设置",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/opinion/index",
+      "style": {
+        "navigationBarTitleText": "意见与反馈",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/help/index",
+      "style": {
+        "navigationBarTitleText": "帮助",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/member/index",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "会员权益",
+        "navigationBarBackgroundColor": "#434862",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/camera/certificate/idCard",
+      "style": {
+        "navigationBarTitleText": "证件扫描-身份证",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/camera/certificate/bankCard",
+      "style": {
+        "navigationBarTitleText": "证件扫描-银行卡",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/camera/certificate/hukou",
+      "style": {
+        "navigationBarTitleText": "证件扫描-户口页",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/camera/certificate/passport",
+      "style": {
+        "navigationBarTitleText": "证件扫描-护照",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/camera/certificate/driver",
+      "style": {
+        "navigationBarTitleText": "证件扫描-驾驶证",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/camera/certificate/certificate",
+      "style": {
+        "navigationBarTitleText": "证件扫描-证书",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/camera/certificate/license",
+      "style": {
+        "navigationBarTitleText": "证件扫描-执照",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/camera/fileScan/index",
+      "style": {
+        "navigationBarTitleText": "文件扫描",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/pdf-transform/index",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/camera/jigsaw/index",
+      "style": {
+        "navigationBarTitleText": "拼图",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/vipProtocol/index",
+      "style": {
+        "navigationBarTitleText": "会员协议",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/bindPhone/index",
+      "style": {
+        "navigationBarTitleText": "更改账户",
+        "navigationBarBackgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/auorder/auorder",
+      "style": {
+        "navigationBarTitleText": "确认领取"
+      }
+    },
+    {
+      "path": "pages/success/success",
+      "style": {
+        "navigationBarTitleText": "领取成功"
+      }
+    },
+    {
+      "path": "pages/webview/webview",
+      "style": {
+        "h5": {
+          "titleNView": false
+        }
+      }
+    },
+    {
+      "path": "pages/receiveRedPacket/receiveRedPacket",
+      "style": {
+        "navigationBarTitleText": "领取红包"
+      }
+    },
+    {
+      "path": "pages/lottery/lottery",
+      "style": {
+        "navigationStyle": "custom",
+        // #ifndef H5
+        "navigationBarTitleText": "抽奖",
+        // #endif
+        "h5": {
+          "titleNView": false
+        },
+        "app-plus": {
+          "softinputMode": "adjustResize"
+        }
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "rgba(51, 51, 51, 1)",
+    "selectedColor": "rgba(35, 156, 247, 1)",
+    "custom": true,
+    "list": [{
+      "pagePath": "pages/index/index",
+      "iconPath": "static/assets/images2/icon_1.png",
+      "selectedIconPath": "static/assets/images2/icon_1_sel.png",
+      "text": "首页"
+    }, {
+      "pagePath": "pages/document/index",
+      "iconPath": "static/assets/images2/icon_2.png",
+      "selectedIconPath": "static/assets/images2/icon_2_sel.png",
+      "text": "文档"
+    }, {
+      "pagePath": "pages/tool/index",
+      "iconPath": "static/assets/images2/icon_3.png",
+      "selectedIconPath": "static/assets/images2/icon_3_sel.png",
+      "text": "工具"
+    }, {
+      "pagePath": "pages/my/index",
+      "iconPath": "static/assets/images2/icon_4.png",
+      "selectedIconPath": "static/assets/images2/icon_4_sel.png",
+      "text": "我的"
+    }]
+  }
+}

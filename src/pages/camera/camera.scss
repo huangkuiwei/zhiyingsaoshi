@@ -1,0 +1,19 @@
+.certificate{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 12rpx;
+  padding: 10px 10px 20rpx;
+}
+.certificate-li{
+  border-radius: 19rpx;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22rpx;
+  padding: 3rpx 10rpx;
+}
+.certificate-li.active{
+  background: #00D7AD;
+  color: #333333;
+}

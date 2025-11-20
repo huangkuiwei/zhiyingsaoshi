@@ -1,0 +1,374 @@
+@charset "UTF-8";
+@font-face {
+  font-family: "iconfont"; /* Project id 4762202 */
+  src: url("//at.alicdn.com/t/c/font_4762202_sx81cfcmri.woff2?t=1733133673984") format("woff2"), url("//at.alicdn.com/t/c/font_4762202_sx81cfcmri.woff?t=1733133673984") format("woff"), url("//at.alicdn.com/t/c/font_4762202_sx81cfcmri.ttf?t=1733133673984") format("truetype");
+}
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-Gold:before {
+  content: "\e71e";
+}
+
+.icon-Silver:before {
+  content: "\e71f";
+}
+
+.icon-diamond:before {
+  content: "\e720";
+}
+
+.icon-Bronze:before {
+  content: "\e721";
+}
+
+.icon-excel:before {
+  content: "\e63e";
+}
+
+.icon-png:before {
+  content: "\e63f";
+}
+
+.icon-pdf:before {
+  content: "\e640";
+}
+
+.icon-ppt:before {
+  content: "\e641";
+}
+
+.icon-word1:before {
+  content: "\e642";
+}
+
+.icon-jpg:before {
+  content: "\e643";
+}
+
+.icon-word:before {
+  content: "\e71a";
+}
+
+.icon-table:before {
+  content: "\e719";
+}
+
+.icon-wechat:before {
+  content: "\e6ba";
+}
+
+.icon-dayinji_o:before {
+  content: "\eb48";
+}
+
+.icon-ellipsis:before {
+  content: "\e7fc";
+}
+
+.icon-mail-fill:before {
+  content: "\e86f";
+}
+
+.icon-QQ:before {
+  content: "\e882";
+}
+
+.icon-wechat-fill:before {
+  content: "\e883";
+}
+
+.icon-laptop-fill:before {
+  content: "\e81f";
+}
+
+.global-m {
+  padding: 1rem;
+}
+
+.global-m_small {
+  padding: 0.6rem;
+}
+
+.global-m_y {
+  padding: 0 1rem;
+}
+
+.font-tip {
+  font-size: 0.8rem;
+  color: rgb(153, 153, 153);
+}
+
+.d-flex {
+  display: flex;
+  align-items: center;
+}
+
+.d-flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.d-flex-column-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.h-card .wd-card__title-content {
+  display: none;
+}
+.h-card .wd-card__footer {
+  display: none;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.padding-x_small {
+  padding: 0 0.8rem !important;
+  min-width: auto !important;
+}
+
+.padding-x_medium {
+  padding: 0 1.25rem !important;
+  min-width: auto !important;
+}
+
+.share-button {
+  min-width: auto !important;
+  padding: 0 !important;
+  width: 40px !important;
+  height: 40px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.share-button .wd-button__icon {
+  margin-right: 0 !important;
+}
+
+.share-button_s1 {
+  min-width: auto !important;
+  padding: 0 0.8rem !important;
+  width: auto !important;
+  height: 40px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.share-button_s1 .wd-button__icon {
+  margin-right: 0 !important;
+}
+
+.fs-weight {
+  font-weight: bold !important;
+}
+
+.flex-cell .wd-cell__left {
+  align-items: center;
+}
+
+.card-title_fs .wd-card__title-content {
+  padding: 0.3rem 0 !important;
+}
+
+.message .wd-card__footer {
+  border-top: 1px solid #eee;
+  padding: 0.5rem 0 0.3rem 0 !important;
+}
+
+.message-box {
+  --wot-button-primary-bg-color: rgba(35, 156, 247, 1);
+  --wot-button-primary-color: rgba(255, 255, 255, 1);
+  --wot-button-medium-fs: 1.2rem;
+  --wot-button-medium-padding: 1.3rem 0;
+}
+
+.message-my .wd-message-box {
+  overflow: visible !important;
+  border-radius: 1rem;
+}
+.message-my .wd-message-box .wd-message-box__content {
+  overflow: visible !important;
+  border-radius: 1rem;
+}
+.message-my .wd-message-box .wd-message-box__body {
+  border-radius: 1rem;
+  background: url("https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/update.png") left top/ 100% 100% no-repeat !important;
+  height: 600rpx;
+}
+.message-my .wd-message-box .wd-message-box__actions {
+  display: none;
+}
+
+.member-icons .wd-grid-item__wrapper {
+  height: auto !important;
+  width: auto !important;
+}
+.member-icons .wd-grid-item__content {
+  font-size: 0.8rem !important;
+}
+
+.login-input {
+  border-radius: 20rpx;
+  padding: 0 0.5rem 0 1.8rem !important;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  font-size: 28rpx !important;
+  color: #999999 !important;
+}
+
+.a-navbar .wd-grid {
+  overflow: visible !important;
+}
+.a-navbar .wd-grid-item {
+  overflow: visible !important;
+}
+
+page {
+  background: rgb(247, 248, 252);
+}
+
+.search-document {
+  display: flex;
+  --wot-input-bg: rgba(246, 246, 246, 1);
+}
+.search-document .wd-input {
+  flex: 1;
+  height: 2.5rem;
+  border-radius: 2rem;
+  display: flex;
+  padding-left: 0.5rem;
+  align-items: center;
+}
+
+.d-active .doc-cell {
+  --wot-color-white: #F3F7F8;
+}
+
+.btns .wd-button.is-block {
+  width: 100%;
+}
+
+.overflow-title .wd-cell__title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pic-upload .wd-upload__evoke-slot {
+  flex: 1;
+}
+.pic-upload .wd-upload__preview {
+  display: none;
+}
+
+.camera-tabs {
+  background: #000000 !important;
+  margin-bottom: 20rpx;
+}
+
+.camera-tabs .wd-tabs__nav--wrap {
+  display: flex;
+  align-items: center;
+}
+
+.camera-tabs .wd-tabs__nav {
+  background: none !important;
+}
+.camera-tabs .wd-tabs__nav-item {
+  color: #999999 !important;
+  height: 24px !important;
+  line-height: 24px !important;
+  font-size: 24rpx;
+}
+.camera-tabs .is-active {
+  color: #fff !important;
+  border-radius: 20px;
+  font-size: 30rpx !important;
+}
+
+.camera-tabs .wd-tabs__line {
+  bottom: -12px !important;
+}
+.camera-tabs .uni-scroll-view {
+  height: 40px;
+}
+
+.water-input .wd-input {
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 3px 0 3px 10px;
+}
+
+.water-mark .wd-watermark {
+  z-index: 9 !important;
+}
+
+.move-class {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.webview {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1 !important; /* 或更低的值 */
+}
+
+.bt-fixed {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #eee;
+  padding: 0.5rem 0;
+  --wot-button-primary-bg-color: #00D7AD;
+}
+
+uni-toast {
+  z-index: 99999 !important; /* 根据实际情况进行调整 */
+}
+
+.share-btn button::after {
+  border: none;
+}
+
+.share-btn button {
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0px;
+  padding-right: 0px;
+  box-sizing: border-box;
+  text-align: center;
+  text-decoration: none;
+  line-height: 1.1;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+  color: #000;
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+}
