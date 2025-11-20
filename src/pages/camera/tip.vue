@@ -24,7 +24,7 @@
         </view>
 
         <view @click="startPic" class="tip-action">
-          <wd-button>开始制作</wd-button>
+          <wd-button>立即扫描</wd-button>
         </view>
       </view>
     </view>

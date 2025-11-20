@@ -45,7 +45,7 @@
           <view @click="takePicture" class="camera-btn">
             <!--<view class="camera-box"></view>-->
             <image
-                src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon3/camera-icon.png"
+                src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/camera/camera-icon.png"
                 style="width: 104rpx; height: 104rpx"
                 mode=""
             />
@@ -62,12 +62,12 @@
             <text class="next">下一步</text>
           </view>
 
-          <!-- 本地相册 -->
+          <!-- 导入图片 -->
           <view @click="chooseLocalPicture" v-else>
             <wd-badge bg-color="#00D7AD" :modelValue="picList.length">
               <view class="camera-pic_more">
                 <image src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon3/import-pic.png"/>
-                <text>本地相册</text>
+                <text>导入图片</text>
               </view>
             </wd-badge>
           </view>
@@ -1061,7 +1061,7 @@ const handler = (tempImagePath, jump) => {
 </script>
 <style>
 page {
-  background: #000000;
+  background: #333333;
 }
 
 .camera-tabs .wd-tabs__nav-item {
@@ -1090,7 +1090,7 @@ page {
   left: 0;
   bottom: 0;
   padding: 0;
-  background: #000;
+  background: #333333;
 }
 .camera-btn {
 

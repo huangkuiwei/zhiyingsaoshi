@@ -1,7 +1,7 @@
 <template>
   <view class="move-box">
     <view class="d-flex-center" style="height: 40px; background: #efefef;">
-      选择移动的文件夹
+      移动到
     </view>
 
     <view class="global-m">
@@ -14,23 +14,23 @@
         />
 
         <view class="move-li d-flex" v-for="(item,index) in dictionary.files" :key="index">
-          <view @click="toCheck(item)" class="d-flex">
-            <wd-checkbox :modelValue="item.check"></wd-checkbox>
-          </view>
+          <image
+              style="width: 67rpx; margin-left: 24rpx"
+              mode="widthFix"
+              src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/document/folder_icon.png"
+          />
 
-          <view @click="toDictionary(item)" style="margin-left: 10px;">{{ item.folder_name }}</view>
+          <view @click="toDictionary(item)" style="flex-grow: 1">{{ item.folder_name }}</view>
+
+          <view @click="toCheck(item)" class="d-flex">
+            <wd-checkbox :modelValue="item.check" checkedColor="#96F022"></wd-checkbox>
+          </view>
         </view>
       </view>
     </view>
     <view class="move-btn global-m">
-      <view @click="moveShow=false" class="flex-1">
-        <wd-button block type="info">
-          取消
-        </wd-button>
-      </view>
-      <view style="width:20px;"></view>
       <view class="flex-1">
-        <wd-button @click="moveFile" block>确定</wd-button>
+        <image @click="moveFile" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/document/btn1.png" />
       </view>
     </view>
   </view>
@@ -143,11 +143,16 @@ defineExpose({
 }
 
 .move-li {
-  height: 30px;
+  display: flex;
+  align-items: center;
+  gap: 30rpx;
 }
 
 .move-ul {
-  max-height: 300px;
+  max-height: 40vh;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30rpx;
 }
 </style>

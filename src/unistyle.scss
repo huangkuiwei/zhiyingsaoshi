@@ -280,7 +280,7 @@ page {
 }
 
 .camera-tabs {
-  background: #000000 !important;
+  background: #333333 !important;
   margin-bottom: 20rpx;
 }
 
@@ -302,6 +302,21 @@ page {
   color: #fff !important;
   border-radius: 20px;
   font-size: 30rpx !important;
+  position: relative;
+}
+
+.wd-tabs__nav-item-text {
+  position: relative;
+  top: -6rpx;
+}
+
+.camera-tabs .is-active:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 40rpx;
+  height: 4rpx;
+  background: #ffffff;
 }
 
 .camera-tabs .wd-tabs__line {

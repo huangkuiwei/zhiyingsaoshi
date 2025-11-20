@@ -100,7 +100,7 @@ const emits = defineEmits(['change'])
   // background: #1F1914;
   display: flex;
   font-size: 13px;
-  color: #00D7AD;
+  color: #CDF022;
   align-items: center;
   justify-content: center;
 
@@ -115,8 +115,8 @@ const emits = defineEmits(['change'])
   }
 }
 .master-li.active{
-  color: #FFFFFF;
-  background: #00D7AD;
+  color: #212121;
+  background: #CDF022;
 }
 .master-part{
   flex: 1;
@@ -147,9 +147,9 @@ const emits = defineEmits(['change'])
   border: 1px solid #fff;
 }
 .page-box{
-  background: #3D3A35;
+  background: #212121;
   display: flex;
-  border: 1px solid #00D7AD;
+  border: 1px solid #CDF022;
   align-items: center;
   border-radius: 20px;
 }

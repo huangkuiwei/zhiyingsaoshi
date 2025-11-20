@@ -1,193 +1,277 @@
 <template>
   <view class="index-top">
-    <view class="index-header">
-      <view class="index-title" :style="{ paddingTop: headerTop }">
-        <wd-drop-menu custom-class="drop-menu document-drop-menu">
-          <wd-drop-menu-item
-              :customStyle="{ background: 'none' }"
-              custom-icon="drop-icon_style"
-              icon-size="20"
-              icon="arrow-down"
-              v-model="value"
-              @change="onSelectChange"
-              :options="options"
-          >
-          </wd-drop-menu-item>
-        </wd-drop-menu>
+    <view class="index-header"></view>
+  </view>
 
-        <view class="search-document">
-          <wd-input
-              v-model="key"
-              placeholder="试试搜索文档"
-              :no-border="true"
-              :use-prefix-slot="true"
-              :clearable="true"
-              @input="onInput"
-              @change="onChange"
-          >
-            <template #prefix>
-              <wd-icon
-                  size="17"
-                  name="search"
-                  color="#8E8E8E"
-              ></wd-icon>
-            </template>
-          </wd-input>
+  <view class="global-m" style="position: relative;">
+    <view class="empty" v-if="!user.uid">
+      <view class="empty-box">
+        <image
+            class="empty-icon"
+            mode="widthFix"
+            src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/index/empty.png"
+        />
+
+        <view class="login-box" v-if="!user.uid">
+          <view class="tip">登录扫描账号，查看账号内同步文档</view>
+          <view class="login" @click="toRouter('/pages/login/index')">登录</view>
         </view>
       </view>
     </view>
-  </view>
 
-  <view class="global-m" v-if="user.uid" style="background: #ffffff; position: relative; top: -8rpx; border-top-left-radius: 10rpx; border-top-right-radius: 10rpx;">
-    <view class="header">
-      <text>所有文档</text>
-      <image @click="addDic" mode="widthFix" style="width: 70rpx" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/folder.png"/>
-      <image @click="selectFile" mode="widthFix" style="width: 70rpx" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/select-icon.png"/>
-    </view>
+    <template v-else>
+      <view class="header">
+        <text class="title">我的文档</text>
+        <image @click="showAddDicDialog = true" mode="widthFix" style="width: 70rpx" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/document/folder.png"/>
+        <text style="flex-grow: 1"></text>
+        <text @click="selectFile1" class="select">{{ isSelectFile ? '取消' : '选择' }}</text>
+      </view>
 
-    <!--<view style="margin-top: 1rem; text-align: center">最近文件</view>-->
-    <view style="margin-top: 0.4rem">
-      <image
-          @click="tobackDict"
-          v-show="fileUrl.length > 0"
-          src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/my/back.png"
-          style="width: 30px; height: 30px"
-          mode=""
-      />
-      <view
-          class="file-item"
-          :class="{ 'd-active': item.id == tindex }"
-          :style="{ background: !item.file_formmat ? '#F3F7F8' : '', paddingBottom: (!item.file_formmat && item.id == tindex) ? '70rpx' : null }"
-          v-for="(item, index) in files"
-          :key="index"
-          @click="getNewFile(item)"
-      >
+      <!--<view style="margin-top: 1rem; text-align: center">最近文件</view>-->
+      <view class="folder-list">
+        <image
+            @click="tobackDict"
+            v-show="fileUrl.length > 0"
+            src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/my/back.png"
+            style="width: 30px; height: 30px"
+            mode=""
+        />
         <view
-            class="left"
-            :style="{
-          width: item.file_formmat ? '140rpx' : '90rpx',
-          height: item.file_formmat ? '140rpx' : '90rpx',
-        }"
+            class="file-item"
+            :class="{ 'd-active': item.id == tindex, lastFile: item.lastFile, file: item.file_formmat }"
+            v-for="(item, index) in files"
+            :key="index"
+            @click="getNewFile(item)"
         >
-          <image
-              v-if="
+          <view
+              class="left"
+              :style="{
+          width: item.file_formmat ? '102rpx' : '90rpx',
+          height: item.file_formmat ? '102rpx' : '90rpx',
+        }"
+          >
+            <image
+                v-if="
                             item.folder_name.includes('.') &&
                             /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(item.folder_name)
                           "
-              mode="aspectFit"
-              :src="item.file_url"
-          />
-          <wd-icon v-if="/\.(doc|docx)$/i.test(item.folder_name)" class-prefix="icon" custom-class="iconfont" name="word1" size="60" color="#0072FF"></wd-icon>
-          <wd-icon v-else-if="/\.(xls|xlsx)$/i.test(item.folder_name)" class-prefix="icon" custom-class="iconfont" name="excel" size="60" color="#00C650"></wd-icon>
-          <wd-icon v-else-if="/\.(ppt|pptx)$/i.test(item.folder_name)" class-prefix="icon" custom-class="iconfont" name="ppt" size="60" color="#FF3E4C"></wd-icon>
-          <wd-icon v-else-if="/\.(pdf)$/i.test(item.folder_name)" class-prefix="icon" custom-class="iconfont" name="pdf" size="60" color="#FF3E4C"></wd-icon>
+                mode="aspectFit"
+                :src="item.file_url"
+            />
+            <wd-icon v-if="/\.(doc|docx)$/i.test(item.folder_name)" class-prefix="icon" custom-class="iconfont" name="word1" size="60" color="#0072FF"></wd-icon>
+            <wd-icon v-else-if="/\.(xls|xlsx)$/i.test(item.folder_name)" class-prefix="icon" custom-class="iconfont" name="excel" size="60" color="#00C650"></wd-icon>
+            <wd-icon v-else-if="/\.(ppt|pptx)$/i.test(item.folder_name)" class-prefix="icon" custom-class="iconfont" name="ppt" size="60" color="#FF3E4C"></wd-icon>
+            <wd-icon v-else-if="/\.(pdf)$/i.test(item.folder_name)" class-prefix="icon" custom-class="iconfont" name="pdf" size="60" color="#FF3E4C"></wd-icon>
 
-          <image
-              v-if="!item.file_formmat"
-              style="width: 30px; margin-left: 30rpx"
-              mode="widthFix"
-              src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/folder_icon.png"
-          ></image>
-        </view>
+            <image
+                v-if="!item.file_formmat"
+                style="width: 30px; margin-left: 10rpx"
+                mode="widthFix"
+                src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/document/folder_icon.png"
+            ></image>
+          </view>
 
-        <view class="right" :style="{ justifyContent: (item.id == tindex && item.file_formmat) ? 'space-between' : 'center', gap: item.id == tindex ? '0' : '10rpx' }">
-          <view class="filename">
-            {{ item.folder_name }}
+          <view class="right" :style="{ justifyContent: 'center', gap: '10rpx' }">
+            <view class="filename">
+              {{ item.folder_name }}
+            </view>
+
+            <view
+                class="time"
+                v-if="item.create_at"
+            >
+              <text>{{ item.create_at }}</text>
+            </view>
           </view>
 
           <view
-              class="time"
-              v-if="item.create_at"
+              @click.stop="(tindex = (tindex === item.id ? -1 : item.id)), (currentItem = (currentItem === item ? null : item))"
+              class="doc-more"
           >
-            <image
-                mode="widthFix"
-                src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/time-icon.png"
-            />
-            <text>{{ item.create_at }}</text>
-          </view>
+            <template v-if="!isSelectFile">
+              <template v-if="item.file_formmat">
+                <view class="more-dot" v-if="tindex === item.id"></view>
+                <view class="more-dot1" v-else></view>
+              </template>
 
-          <view class="d-grid" :class="{ folder: !item.file_formmat }" style="grid-gap: 12rpx">
-            <view @click.stop="toMove(item)" class="d-grid_li d-grid_li1" v-if="item.file_formmat">
-              <view>移动</view>
-            </view>
-            <view @click.stop="toEdit(item)" class="d-grid_li d-grid_li1">
-              <view>编辑</view>
-            </view>
-            <view
-                @click.stop="toShareFile(item)"
-                v-if="item.file_formmat"
-                class="d-grid_li d-grid_li1"
-            >
-              <view>分享</view>
-            </view>
-            <view @click.stop="toDelete(item)" class="d-grid_li d-grid_li1">
-              <view>删除</view>
+              <template v-else>
+                <view v-if="tindex === item.id" style="color: #CDF022; font-size: 24rpx; letter-spacing: 4rpx">
+                  ...
+                </view>
+
+                <view v-else style="color: #030203; font-size: 24rpx; letter-spacing: 4rpx">
+                  ...
+                </view>
+              </template>
+            </template>
+
+            <view class="detect-count" @click.stop="item.select = !item.select" v-else>
+              <template v-if="item.file_formmat">
+                <view class="more-dot" v-if="item.select"></view>
+                <view class="more-dot1" v-else></view>
+              </template>
+
+              <template v-else>
+                <view v-if="item.select" style="color: #CDF022; font-size: 24rpx; letter-spacing: 4rpx">
+                  ...
+                </view>
+
+                <view v-else style="color: #030203; font-size: 24rpx; letter-spacing: 4rpx">
+                  ...
+                </view>
+              </template>
             </view>
           </view>
         </view>
 
-        <view
-            @click.stop="(tindex = (tindex === item.id ? -1 : item.id)), (currentItem = (currentItem === item ? null : item))"
-            class="doc-more"
-        >
-          <image
-              v-if="!isSelectFile"
-              style="width: 8rpx"
-              mode="widthFix"
-              :src="tindex === item.id ? 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/dot2.png' : 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/dot1.png'"
-          />
-
-          <view class="detect-count" @click.stop="item.select = !item.select" v-else>
-            <view v-if="item.select">
-              <wd-icon color="#00D7AD" name="check-rectangle-filled" size="22px"></wd-icon>
-            </view>
-
-            <view v-else>
-              <wd-icon color="#00D7AD" name="rectangle" size="22px"></wd-icon>
+        <view class="empty" v-if="files.length === 0">
+          <view class="empty-box">
+            <view class="add-box">
+              <view class="tip">暂无文档数据</view>
             </view>
           </view>
         </view>
       </view>
-      <!--<view class="empty" v-if="files.length === 0">-->
-      <!--  <view class="empty-box">-->
-      <!--    <image-->
-      <!--        style="width: 100%"-->
-      <!--        mode="widthFix"-->
-      <!--        src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/empty-icon.png"-->
-      <!--    ></image>-->
-      <!--    <view style="margin-top: 0.112rpx; text-align: center"-->
-      <!--    >暂无文档</view-->
-      <!--    >-->
-      <!--  </view>-->
-      <!--</view>-->
+    </template>
+  </view>
+
+  <!--<view class="select-options">-->
+  <!--  <image-->
+  <!--      mode="widthFix"-->
+  <!--      src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon14/01.png"-->
+  <!--      @click="moveAll"-->
+  <!--  />-->
+
+  <!--  <image-->
+  <!--      mode="widthFix"-->
+  <!--      src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon14/02.png"-->
+  <!--      @click="editAll"-->
+  <!--  />-->
+
+  <!--  <image-->
+  <!--      mode="widthFix"-->
+  <!--      src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon14/03.png"-->
+  <!--      @click="shareAll"-->
+  <!--  />-->
+
+  <!--  <image-->
+  <!--      mode="widthFix"-->
+  <!--      src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon14/04.png"-->
+  <!--      @click="deleteAll"-->
+  <!--  />-->
+  <!--</view>-->
+
+  <view class="select-options" v-if="selectFile || isSelectFile">
+    <view class="select-options-container" v-if="!showEditFileDialog && !showAddDicDialog && !showDeleteDialog && !moveShow">
+      <view @click.stop="isSelectFile ? moveAll() : toMove(selectFile)" v-if="(selectFile && selectFile.file_formmat || isSelectFile)" class="select-option">
+        <image
+            mode="widthFix"
+            src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/document/icon1.png"
+        />
+
+        <view>移动</view>
+      </view>
+
+      <view @click.stop="isSelectFile ? editAll() : (showEditFileDialog = true)" class="select-option">
+        <image
+            mode="widthFix"
+            src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/document/icon2.png"
+        />
+
+        <view>编辑</view>
+      </view>
+      <view @click.stop="isSelectFile ? shareAll() : toShareFile(selectFile)" v-if="(selectFile && selectFile.file_formmat || isSelectFile)" class="select-option">
+        <image
+            mode="widthFix"
+            src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/document/icon3.png"
+        />
+
+        <view>分享</view>
+      </view>
+      <view @click.stop="isSelectFile ? deleteAll() : (showDeleteDialog = true)" class="select-option">
+        <image
+            mode="widthFix"
+            src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/document/icon4.png"
+        />
+
+        <view>删除</view>
+      </view>
+    </view>
+
+    <view class="edit-file" v-if="showEditFileDialog">
+      <view class="title">重命名</view>
+      <view class="input-box">
+        <input type="text" v-model="selectFile.file_name" />
+        <image
+            mode="widthFix"
+            src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/index/close.png"
+            @click="(selectFile.file_name = selectFile.file_formmat || '')"
+        />
+      </view>
+      <view class="options">
+        <image
+            mode="widthFix"
+            src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/index/btn1.png"
+            @click="showEditFileDialog = false"
+        />
+
+        <image
+            mode="widthFix"
+            src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/index/btn2.png"
+            @click="toEdit(selectFile)"
+        />
+      </view>
     </view>
   </view>
 
-  <view class="select-options">
-    <image
-        mode="widthFix"
-        src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon14/01.png"
-        @click="moveAll"
-    />
+  <wd-popup v-model="showDeleteDialog" @close="showDeleteDialog = false" custom-style="background: transparent">
+    <view class="delete-dialog">
+      <view class="tip">温馨提示</view>
+      <view class="title">文档将被彻底删除，请再次确认是否删除</view>
+      <view class="options">
+        <image
+            mode="widthFix"
+            src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/index/btn1.png"
+            @click="showDeleteDialog = false"
+        />
 
-    <image
-        mode="widthFix"
-        src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon14/02.png"
-        @click="editAll"
-    />
+        <image
+            mode="widthFix"
+            src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/index/btn2.png"
+            @click="toDelete(selectFile)"
+        />
+      </view>
+    </view>
+  </wd-popup>
 
-    <image
-        mode="widthFix"
-        src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon14/03.png"
-        @click="shareAll"
-    />
+  <wd-popup v-model="showAddDicDialog" @close="showAddDicDialog = false" custom-style="background: transparent">
+    <view class="delete-dialog" style="background: #ffffff; border-radius: 30rpx;">
+      <view class="tip">新建文件夹</view>
 
-    <image
-        mode="widthFix"
-        src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon14/04.png"
-        @click="deleteAll"
-    />
-  </view>
+      <view class="input-box">
+        <input type="text" placeholder="请输入文件夹名称" v-model="fileName" />
+        <image
+            mode="widthFix"
+            src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/index/close.png"
+            @click="fileName = ''"
+        />
+      </view>
+
+      <view class="options">
+        <image
+            mode="widthFix"
+            src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/index/btn1.png"
+            @click="showAddDicDialog = false"
+        />
+
+        <image
+            mode="widthFix"
+            src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/index/btn2.png"
+            @click="addDic()"
+        />
+      </view>
+    </view>
+  </wd-popup>
 
   <wd-message-box selector="wd-delete-box-slot"></wd-message-box>
   <wd-message-box selector="wd-add-box-slot">
@@ -210,7 +294,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watchEffect } from 'vue'
 import NavBar from '@/section/a-navbar.vue'
 import { shareShow, shareUrl, state } from '@/section/share'
 import Share from '@/section/share.vue'
@@ -239,7 +323,7 @@ const value = ref(0),
     files = ref([]),
     fileUrl = ref([]),
     currentItem = ref(null)
-const fileName = ref(null)
+const fileName = ref('')
 const options = ref([
   { label: '全部', value: 0 }
 ])
@@ -252,6 +336,33 @@ const headerTop = ref(MenuButtonInfo.top + MenuButtonInfo.height + 10 + 'px')
 
 const lastFolderInfo = computed(() => {
   return fileUrl.value[fileUrl.value.length - 1] || {}
+})
+
+const selectFile = ref()
+const showEditFileDialog = ref(false)
+const showDeleteDialog = ref(false)
+const showAddDicDialog = ref(false)
+
+watchEffect(() => {
+  files.value.forEach(item => {
+    if (!item.file_name) {
+      item.file_name = item.folder_name
+    }
+  })
+
+  let lastFileIndex = files.value.findLastIndex(item => !item.file_formmat)
+
+  if (lastFileIndex !== -1) {
+    files.value[lastFileIndex].lastFile = true
+  }
+
+  let file = files.value.find(item => item.id === tindex.value)
+
+  if (file) {
+    selectFile.value = JSON.parse(JSON.stringify(file))
+  } else {
+    selectFile.value = undefined
+  }
 })
 
 onLoad(() => {
@@ -482,24 +593,7 @@ const onSelectChange = ($event) => {
 }
 
 const toDelete = (item, confirm = true) => {
-  if (!confirm) {
-    deleteHandler(item)
-    return
-  }
-
-  deleteMessage
-      .confirm({
-        title: '温馨提示',
-        msg: item.file_formmat ? '确定删除该文件吗?' : '确定删除该文件夹吗?'
-      })
-      .then((type) => {
-        if (type.action == 'confirm') {
-          deleteHandler(item)
-        }
-      })
-      .catch(() => {
-        console.log('点击了取消按钮')
-      })
+  deleteHandler(item)
 }
 
 const deleteHandler = (item) => {
@@ -510,13 +604,14 @@ const deleteHandler = (item) => {
       } : {
         id: item.id
       }).then(() => {
+    showDeleteDialog.value = false
     tindex.value = -1
+    isSelectFile.value = false
 
     uni.showLoading({
       title: '正在加载'
     })
 
-    tindex.value = -1
     initDictionary(lastFolderInfo.value.id).then((data) => {
       options.value = [{ label: '全部', value: 0 }]
 
@@ -635,68 +730,63 @@ const getNewFile = (item) => {
   }
 }
 
-const selectFile = () => {
+const selectFile1 = () => {
   isSelectFile.value = !isSelectFile.value
   tindex.value = -1
 }
 
 const addDic = () => {
-  fileName.value = null
-  addMessage
-      .confirm({
-        title: '新建文件夹'
+  if (!fileName.value) {
+    uni.showToast({ title: '文件夹名称不能为空', icon: 'none' })
+    return
+  }
+  toAddDict(lastFolderInfo.value.id, fileName.value).then(() => {
+    showAddDicDialog.value = false
+    fileName.value = ''
+    tindex.value = -1
+    isSelectFile.value = false
+    uni.showLoading({
+      title: '正在加载'
+    })
+
+    initDictionary(lastFolderInfo.value.id).then((data) => {
+      // if (!fileUrl.value.length) {
+      options.value = [{ label: '全部', value: 0 }]
+
+      data.forEach(item => {
+        options.value.push({ label: item.folder_name, value: item.folder_path_id, ...item })
       })
-      .then(() => {
-        if (!fileName.value) {
-          uni.showToast({ title: '文件夹名称不能为空', icon: 'none' })
-          return
+
+      $http.post('api/user/hdfs/file/file/list', {
+        folder_id: key.value ? null : (lastFolderInfo.value.id || 0),
+        key: key.value || null
+      }).then((res) => {
+        res.data = res.data.slice(0, 20)
+
+        if (!key.value) {
+          files.value = data.map(item => ({
+            ...item,
+            select: false,
+          }))
+        } else {
+          files.value = []
         }
-        toAddDict(lastFolderInfo.value.id, fileName.value).then(() => {
-          uni.showLoading({
-            title: '正在加载'
-          })
 
-          initDictionary(lastFolderInfo.value.id).then((data) => {
-            // if (!fileUrl.value.length) {
-            options.value = [{ label: '全部', value: 0 }]
-
-            data.forEach(item => {
-              options.value.push({ label: item.folder_name, value: item.folder_path_id, ...item })
-            })
-
-            $http.post('api/user/hdfs/file/file/list', {
-              folder_id: key.value ? null : (lastFolderInfo.value.id || 0),
-              key: key.value || null
-            }).then((res) => {
-              res.data = res.data.slice(0, 20)
-
-              if (!key.value) {
-                files.value = data.map(item => ({
-                  ...item,
-                  select: false,
-                }))
-              } else {
-                files.value = []
-              }
-
-              res.data.forEach(item => {
-                files.value.push({
-                  ...item,
-                  folder_name: item.file_name,
-                  select: false,
-                })
-              })
-            }).finally(() => {
-              uni.hideLoading()
-            })
-            // }
-          }).catch(() => {
-            uni.hideLoading()
+        res.data.forEach(item => {
+          files.value.push({
+            ...item,
+            folder_name: item.file_name,
+            select: false,
           })
         })
+      }).finally(() => {
+        uni.hideLoading()
       })
-      .catch(() => {
-      })
+      // }
+    }).catch(() => {
+      uni.hideLoading()
+    })
+  })
 }
 
 const tobackDict = () => {
@@ -785,107 +875,106 @@ const onUpdate = () => {
 }
 
 const toEdit = (item) => {
-  editMessage
-      .prompt({
-        title: '文档标题',
-        inputValue: item.folder_name,
-        inputPattern: !item.file_formmat
-            ? /^(?!\s*$).+/
-            : /^[^\\\/:*?"<>|\r\n]+$$/,
-        inputError: '文件名格式不正确(文件需要后缀名)'
+  uni.showLoading({
+    title: '加载中',
+    mask: true
+  })
+
+  if (!item.file_formmat) {
+    $http.post('api/user/hdfs/file/folder/rename', {
+      id: item.id,
+      folder_name: selectFile.value.file_name
+    }).then(() => {
+      tindex.value = -1
+      showEditFileDialog.value = false
+      isSelectFile.value = false
+
+      uni.showLoading({
+        title: '正在加载'
       })
-      .then((resp) => {
-        if (resp.action == 'confirm') {
-          tindex.value = -1
 
-          if (!item.file_formmat) {
-            $http.post('api/user/hdfs/file/folder/rename', {
-              id: item.id,
-              folder_name: resp.value
-            }).then(() => {
-              uni.showLoading({
-                title: '正在加载'
-              })
+      initDictionary(lastFolderInfo.value.id).then((data) => {
+        // if (!fileUrl.value.length) {
+        $http.post('api/user/hdfs/file/file/list', {
+          folder_id: key.value ? null : (lastFolderInfo.value.id || 0),
+          key: key.value || null
+        }).then((res) => {
+          res.data = res.data.slice(0, 20)
 
-              initDictionary(lastFolderInfo.value.id).then((data) => {
-                // if (!fileUrl.value.length) {
-                $http.post('api/user/hdfs/file/file/list', {
-                  folder_id: key.value ? null : (lastFolderInfo.value.id || 0),
-                  key: key.value || null
-                }).then((res) => {
-                  res.data = res.data.slice(0, 20)
-
-                  if (!key.value) {
-                    files.value = data.map(item => ({
-                      ...item,
-                      select: false,
-                    }))
-                  } else {
-                    files.value = []
-                  }
-
-                  res.data.forEach(item => {
-                    files.value.push({
-                      ...item,
-                      folder_name: item.file_name,
-                      select: false,
-                    })
-                  })
-                }).finally(() => {
-                  uni.hideLoading()
-                })
-                // }
-              }).catch(() => {
-                uni.hideLoading()
-              })
-            })
+          if (!key.value) {
+            files.value = data.map(item => ({
+              ...item,
+              select: false,
+            }))
           } else {
-            $http.post('api/user/hdfs/file/file/rename', {
-              id: item.id,
-              file_name: resp.value
-            }).then(() => {
-              uni.showLoading({
-                title: '正在加载'
-              })
-
-              initDictionary(lastFolderInfo.value.id).then((data) => {
-                // if (!fileUrl.value.length) {
-                $http.post('api/user/hdfs/file/file/list', {
-                  folder_id: key.value ? null : (lastFolderInfo.value.id || 0),
-                  key: key.value || null
-                }).then((res) => {
-                  res.data = res.data.slice(0, 20)
-
-                  if (!key.value) {
-                    files.value = data.map(item => ({
-                      ...item,
-                      select: false,
-                    }))
-                  } else {
-                    files.value = []
-                  }
-
-                  res.data.forEach(item => {
-                    files.value.push({
-                      ...item,
-                      folder_name: item.file_name,
-                      select: false,
-                    })
-                  })
-                }).finally(() => {
-                  uni.hideLoading()
-                })
-                // }
-              }).catch(() => {
-                uni.hideLoading()
-              })
-            })
+            files.value = []
           }
-        }
+
+          res.data.forEach(item => {
+            files.value.push({
+              ...item,
+              folder_name: item.file_name,
+              select: false,
+            })
+          })
+        }).finally(() => {
+          uni.hideLoading()
+        })
+        // }
+      }).catch(() => {
+        uni.hideLoading()
       })
-      .catch((error) => {
-        console.log(error)
+    }).finally(() => {
+      uni.hideLoading();
+    })
+  } else {
+    $http.post('api/user/hdfs/file/file/rename', {
+      id: item.id,
+      file_name: selectFile.value.file_name
+    }).then(() => {
+      tindex.value = -1
+      showEditFileDialog.value = false
+      isSelectFile.value = false
+
+      uni.showLoading({
+        title: '正在加载'
       })
+
+      initDictionary(lastFolderInfo.value.id).then((data) => {
+        // if (!fileUrl.value.length) {
+        $http.post('api/user/hdfs/file/file/list', {
+          folder_id: key.value ? null : (lastFolderInfo.value.id || 0),
+          key: key.value || null
+        }).then((res) => {
+          res.data = res.data.slice(0, 20)
+
+          if (!key.value) {
+            files.value = data.map(item => ({
+              ...item,
+              select: false,
+            }))
+          } else {
+            files.value = []
+          }
+
+          res.data.forEach(item => {
+            files.value.push({
+              ...item,
+              folder_name: item.file_name,
+              select: false,
+            })
+          })
+        }).finally(() => {
+          uni.hideLoading()
+        })
+        // }
+      }).catch(() => {
+        uni.hideLoading()
+      })
+    }).finally(() => {
+      uni.hideLoading();
+    })
+  }
 }
 
 onShareAppMessage(() => {
@@ -912,6 +1001,8 @@ const toShareFile = (item) => {
         filePath: newFilePath,
         success() {
           tindex.value = -1
+          showEditFileDialog.value = false
+          isSelectFile.value = false
           console.log('文件转发成功')
         },
         fail(res) {
@@ -935,6 +1026,15 @@ const moveAll = () => {
   if (!select.length) {
     uni.showToast({
       title: '请选择文件',
+      icon: 'none',
+    })
+
+    return
+  }
+
+  if (select.find(item => !item.file_formmat)) {
+    uni.showToast({
+      title: '文件夹不支持移动',
       icon: 'none',
     })
 
@@ -965,7 +1065,9 @@ const editAll = () => {
     return
   }
 
-  toEdit(select[0])
+  // toEdit(select[0])
+  tindex.value = select[0].id
+  showEditFileDialog.value = true
 }
 
 const shareAll = () => {
@@ -991,7 +1093,7 @@ const shareAll = () => {
 
   if (select.find(item => !item.file_formmat)) {
     uni.showToast({
-      title: '不能选择文件夹',
+      title: '文件夹不支持分享',
       icon: 'none',
     })
 
@@ -1020,8 +1122,8 @@ const deleteAll = () => {
 </script>
 <style>
 page {
+  padding-bottom: 200rpx;
   --wot-drop-menu-fs: 1rem;
-  background: #ffffff;
 }
 
 .wd-input__suffix {
@@ -1042,34 +1144,16 @@ page {
 </style>
 <style scoped lang="scss">
 .index-top {
-  background: #00D7AD;
-  // padding: 0.8rem;
-  --wot-card-margin: 0;
+  background: #F7F7F7 linear-gradient(228deg, #D5F1FD 0%, #D5F5C2 33%, #D6F985 100%) left top/100% 513rpx no-repeat;
 }
 
 .index-header {
-  background: #00D7AD;
-  position: relative;
-  background: url("https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/header-bg.png") left top/100% auto no-repeat;
+  height: 180rpx;
+}
 
-  .index-title {
-    padding-left: 2rpx;
-    padding-right: 40rpx;
-    padding-bottom: 40rpx;
-    font-size: 34rpx;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    text {
-      font-size: 30rpx;
-      color: #FFFFFF;
-      margin-right: 22rpx;
-    }
-
-    image {
-      width: 101rpx;
-    }
+.folder-list {
+  .lastFile {
+    border-bottom: 2rpx solid #E7E7E7;
   }
 }
 
@@ -1077,6 +1161,9 @@ page {
   display: flex;
   align-items: center;
   margin-bottom: 20rpx;
+
+  &.file {
+  }
 
   .left {
     flex-shrink: 0;
@@ -1124,6 +1211,22 @@ page {
 
   .doc-more {
     flex-shrink: 0;
+
+    .more-dot {
+      width: 27rpx;
+      height: 27rpx;
+      background: #96F022;
+      border-radius: 50%;
+      border: 2rpx solid #000000;
+    }
+
+    .more-dot1 {
+      width: 27rpx;
+      height: 27rpx;
+      background: #FFFFFF;
+      border-radius: 50%;
+      border: 2rpx solid #D3D3D3;
+    }
   }
 }
 
@@ -1149,14 +1252,9 @@ page {
 .doc-more {
   display: flex;
   align-items: center;
-  padding: 0.6rem;
 }
 
 .d-active {
-  // background: rgba(247, 248, 252, 1);
-  // border-radius: 8px;
-  overflow: hidden;
-  padding-bottom: 0.5rem;
 }
 
 .folder {
@@ -1203,18 +1301,37 @@ page {
   .header {
     display: flex;
     align-items: center;
-    padding-bottom: 10rpx;
-    font-weight: bold;
-    font-size:  30rpx;
+    padding-bottom: 15rpx;
 
-    text {
-      flex-grow: 1;
+    .title {
+      font-weight: 500;
+      font-size: 36rpx;
+      color: #000000;
+      margin-right: 33rpx;
     }
 
     image {
-      margin-left: 10rpx;
+     width: 55rpx;
       flex-shrink: 0;
     }
+
+    .select {
+      width: 109rpx;
+      height: 46rpx;
+      background: #EEEEEE;
+      border-radius: 23rpx;
+      font-size: 30rpx;
+      color: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .folder-list {
+    background: #ffffff;
+    border-radius: 10rpx;
+    padding: 10rpx 20rpx 10rpx;
   }
 }
 
@@ -1223,14 +1340,190 @@ page {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 20rpx 100rpx;
+  background: #ffffff;
+  box-shadow: 1rpx -13rpx 15rpx 1rpx rgba(144,144,144,0.08);
+  border-radius: 50rpx 50rpx 0rpx 0rpx;
+  z-index: 99999;
+
+  .select-options-container {
+    padding: 65rpx 20rpx 50rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    .select-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10rpx;
+
+      image {
+        width: 80rpx;
+        height: auto;
+      }
+
+      view {
+        font-size: 26rpx;
+        color: #000000;
+      }
+    }
+  }
+
+  .edit-file {
+    padding: 30rpx 56rpx 50rpx;
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      font-weight: 500;
+      font-size: 36rpx;
+      color: #000000;
+      margin-bottom: 34rpx;
+    }
+
+    .input-box {
+      height: 80rpx;
+      background: #F3F3F3;
+      border-radius: 10rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 25rpx;
+      margin-bottom: 58rpx;
+
+      input {
+        flex-grow: 1;
+      }
+
+      image {
+        padding-left: 20rpx;
+        width: 28rpx;
+        height: auto;
+      }
+    }
+
+    .options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      image {
+        width: 300rpx;
+        height:  auto;
+      }
+    }
+  }
+}
+
+.delete-dialog {
+  width: 621rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: url("https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/index/bg2.png") left top/100% 100% no-repeat;
+  padding: 30rpx 43rpx;
+  box-sizing: border-box;
+
+  .tip {
+    font-weight: 600;
+    font-size: 39rpx;
+    color: #000000;
+    margin-bottom: 43rpx;
+  }
+
+  .title {
+    font-size: 35rpx;
+    color: #000000;
+    line-height: 56rpx;
+    margin-bottom: 45rpx;
+  }
+
+  .input-box {
+    height: 80rpx;
+    background: #F3F3F3;
+    border-radius: 10rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 25rpx;
+    margin-bottom: 58rpx;
+    box-sizing: border-box;
+    width: 100%;
+
+    input {
+      flex-grow: 1;
+    }
+
+    image {
+      padding-left: 20rpx;
+      width: 28rpx;
+      height: auto;
+    }
+  }
+
+  .options {
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    image {
+      width: 247rpx;
+      height: auto;
+    }
+  }
+}
+
+.empty {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  border-top: 2rpx solid #eeeeee;
+  justify-content: center;
 
-  image {
-    width: 50rpx;
+  .empty-box {
+    width: 100%;
+    padding: 50rpx 0;
+    box-sizing: border-box;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .empty-icon {
+      width: 245rpx;
+    }
+  }
+
+  .login-box, .add-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .tip {
+      font-size: 22rpx;
+      color: #656565;
+      margin-bottom: 25rpx;
+    }
+
+    .login {
+      width: 157rpx;
+      height: 55rpx;
+      background: #333333;
+      border-radius: 15rpx;
+      font-weight: 500;
+      font-size: 21rpx;
+      color: #CDF022;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon1 {
+      width: 37rpx;
+    }
   }
 }
 </style>

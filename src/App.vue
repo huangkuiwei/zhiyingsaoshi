@@ -227,7 +227,8 @@ body{
 
 // 公共样式
 .wd-button.is-primary {
-  background: #00D7AD !important;
+  background: #CDF022 !important;
+  color: #212121 !important;
 }
 
 .wd-message-box__title {

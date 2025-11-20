@@ -16,7 +16,7 @@
         </view>
         <view v-show="item.hidden">
           <view @click="jump" class="navbar-camero">
-            <image class="camero" style="width: 80px" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon10/camero.png"></image>
+            <image class="camero" style="width: 80px" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/tabbar/camero.png"></image>
           </view>
         </view>
       </wd-grid-item>
@@ -35,15 +35,15 @@ const menus = ref([
     page: '/pages/index/index',
     name: '首页',
     index: 1,
-    icon: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon10/icon_1.png',
-    select_icon: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon10/icon_1_sel.png'
+    icon: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/tabbar/icon_1.png',
+    select_icon: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/tabbar/icon_1_sel.png'
   },
   {
     page: '/pages/document/index',
     name: '文档',
     index: 2,
-    icon: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon10/icon_2.png',
-    select_icon: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon10/icon_2_sel.png'
+    icon: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/tabbar/icon_2.png',
+    select_icon: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/tabbar/icon_2_sel.png'
   },
   {
     hidden: true
@@ -52,15 +52,15 @@ const menus = ref([
     page: '/pages/tool/index',
     name: '工具',
     index: 3,
-    icon: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon10/icon_3.png',
-    select_icon: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon10/icon_3_sel.png'
+    icon: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/tabbar/icon_3.png',
+    select_icon: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/tabbar/icon_3_sel.png'
   },
   {
     page: '/pages/my/index',
     name: '我的',
     index: 4,
-    icon: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon10/icon_4.png',
-    select_icon: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon10/icon_4_sel.png'
+    icon: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/tabbar/icon_4.png',
+    select_icon: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/tabbar/icon_4_sel.png'
   }
 ])
 
