@@ -112,13 +112,13 @@ const jump = () => {
   box-shadow: 0 -1px 3px 3px #f7f7f7;
   overflow: visible;
   z-index: 999;
-  color: #CCCCCC;
+  color: #A4A3AA;
   .extra{
     overflow: visible;
   }
 }
 .active{
-  color: #00D7AD;
+  color: #212121;
 }
 .navbar-camero{
   position: relative;

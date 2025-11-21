@@ -1,52 +1,75 @@
 <template>
   <view class="login">
     <view class="logo">
-      <uni-icons style="margin-bottom: 90rpx" type="arrow-left" size="30" @click="goHome" />
+      <uni-icons type="left" size="30" @click="goHome" />
+    </view>
+
+    <view class="logo-img">
+      <wd-img
+          width="147rpx"
+          height="140rpx"
+          src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/login/logo.png"
+      ></wd-img>
 
       <wd-img
-        width="310rpx"
-        height="117rpx"
-        src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/login-logo.png"
+          v-if="loginType === 0"
+          width="357rpx"
+          height="51rpx"
+          src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/login/logo2.png"
       ></wd-img>
     </view>
 
-    <view style="padding: 0 32rpx">
-      <wd-input v-model="username" :no-border="true" custom-class="login-input" size="large" placeholder="请输入手机号码"></wd-input>
-    </view>
-    <view style="margin-top: 30rpx; padding: 0 32rpx">
-      <wd-input :maxlength="6" v-model="vercode" :no-border="true" custom-class="login-input" size="large" placeholder="验证码">
-        <template #suffix>
-          <view v-show="verState">
-            <!--<wd-button @click="getVercode" type="warning" custom-class="login-button" size="large">-->
-            <!--  发送验证码-->
-            <!--</wd-button>-->
-            <button @click="getVercode" class="login-button">
-              发送验证码
-            </button>
-          </view>
-          <view v-show="!verState">
-            <wd-count-down @finish="onFinish" ref="countDown" :auto-start="false" format="ss" :time="time" />
-          </view>
-        </template>
-      </wd-input>
-    </view>
-    <view class="login-agree" style="padding: 0 32rpx">
-      <wd-checkbox checked-color="rgba(35, 156, 247, 1)" size="large" v-model="radio"></wd-checkbox>
-      <view class="login-agree_text">
-        已阅读并同意
-        <view style="color: #239CF7" @click="toRouter(`/pages/vipProtocol/index`, `title=${encodeURIComponent('《用户服务及隐私协议》')}`)">《用户服务及隐私协议》</view>
+    <template v-if="loginType === 1">
+      <view style="padding: 0 61rpx; margin-top: 66rpx">
+        <wd-input v-model="username" :no-border="true" custom-class="login-input" size="large" placeholder="请输入手机号"></wd-input>
       </view>
-    </view>
-    <view class="login-btn">
-      <wd-button @click="toLogin(username, vercode, radio, sign)" custom-class="submit-btn" block size="large">
-        登录
-      </wd-button>
-    </view>
 
-    <view class="login-btn" style="margin-top: 0; padding: 0 42rpx">
-      <wd-button @click="showOneKeyLoginTip" custom-class="submit-btn" block size="large">
-        本机号码一键登录
-      </wd-button>
+      <view style="margin-top: 30rpx; padding: 0 61rpx">
+        <wd-input :maxlength="6" v-model="vercode" :no-border="true" custom-class="login-input" size="large" placeholder="验证码">
+          <template #suffix>
+            <view v-show="verState">
+              <!--<wd-button @click="getVercode" type="warning" custom-class="login-button" size="large">-->
+              <!--  发送验证码-->
+              <!--</wd-button>-->
+              <button @click="getVercode" class="login-button">
+                发送验证码
+              </button>
+            </view>
+            <view v-show="!verState">
+              <wd-count-down @finish="onFinish" ref="countDown" :auto-start="false" format="ss" :time="time" />
+            </view>
+          </template>
+        </wd-input>
+      </view>
+      <view class="login-agree" style="padding: 0 87rpx">
+        <wd-checkbox checked-color="rgba(35, 156, 247, 1)" size="large" v-model="radio"></wd-checkbox>
+        <view class="login-agree_text">
+          已阅读并同意
+          <view style="color: #239CF7" @click="toRouter(`/pages/vipProtocol/index`, `title=${encodeURIComponent('《用户服务及隐私协议》')}`)">《用户服务及隐私协议》</view>
+        </view>
+      </view>
+    </template>
+
+    <view class="login-btns">
+      <template v-if="loginType === 0">
+        <view class="login-btn login-btn1">
+          <button @click="showOneKeyLoginTip" custom-class="submit-btn" block size="large">
+            授权手机号一键登录
+          </button>
+        </view>
+
+        <view class="login-btn login-btn2">
+          <button @click="loginType = 1" custom-class="submit-btn" block size="large">
+            用短信验证码登录
+          </button>
+        </view>
+      </template>
+
+      <view class="login-btn login-btn3" v-else>
+        <button @click="toLogin(username, vercode, radio, sign)" custom-class="submit-btn" block size="large">
+          登录
+        </button>
+      </view>
     </view>
     <!-- <view class="login-weixin">
       <wd-divider style="width:200px">其他登录方式</wd-divider>
@@ -98,6 +121,7 @@ const sign = ref(null)
 const vercode = ref(null), username = ref(uni.getStorageSync('username_lg'))
 const radio = ref( false ), countDown = ref(null)
 const redemptionDialog = ref(null)
+const loginType = ref(0)
 
 const getVercode = () => {
   const isPhone = validator.isMobilePhone(username.value, 'zh-CN');
@@ -176,10 +200,16 @@ const goHome = () => {
 }
 </script>
 
-<style>
+<style lang="scss">
 page {
   height: 100%;
-  background: url("https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/login_bg.png") left top/100% 100% no-repeat;
+  // TODO 背景有问题
+  background: #FFFFFF linear-gradient(228deg, #D5F1FD 0%, #D5F5C2 33%, #D6F985 100%) left top/100% 483rpx no-repeat;
+}
+
+.login-input {
+  background: #F5F5F5 !important;
+  border-radius: 20rpx !important;
 }
 </style>
 
@@ -188,14 +218,23 @@ page {
   height: 100%;
 }
 .logo{
-  padding: 95rpx 0 103rpx 44rpx;
+  padding: 105rpx 0 128rpx 20rpx;
   display: flex;
   flex-direction: column;
 }
+
+.logo-img {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 52rpx;
+}
+
 .login-button{
   height: 2.2rem !important;
-  background: #239CF715;
-  color: #08C39F;
+  background: #030203;
+  color: #CDF022;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -213,14 +252,47 @@ page {
   align-items: center;
 }
 .login-agree_text{
-  color: #ffffff;
-  font-size: 0.8rem;
+  color: #030203;
+  font-size: 22rpx;
   display: flex;
 }
-.login-btn{
-  margin-top: 122rpx;
-  padding:  42rpx;
+
+.login-btns {
+  .login-btn{
+    margin-top: 30rpx;
+    font-weight: 500;
+    padding: 0 74rpx;
+
+    &.login-btn1 {
+      margin-top: 128rpx;
+    }
+
+    &.login-btn2 {
+      button {
+        background: #F2FFB5;
+      }
+    }
+
+    &.login-btn3 {
+      margin-top: 97rpx;
+    }
+
+    button {
+      border-radius: 16rpx;
+      background: #CDF022;
+      color: #030203;
+      font-weight: 500;
+      font-size: 32rpx;
+      height: 100rpx;
+      line-height: 100rpx;
+
+      &:after {
+        border: none;
+      }
+    }
+  }
 }
+
 .submit-btn{
   height: 3rem !important;
   font-size: 1.2rem !important;
@@ -258,7 +330,7 @@ page {
     font-size: 28rpx !important;
 
     &.redemption-btn1 {
-      border: 4rpx solid #00D7AD;
+      border: 4rpx solid #CDF022;
     }
   }
 }

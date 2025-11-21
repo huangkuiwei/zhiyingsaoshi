@@ -17,108 +17,109 @@
            mode="heightFix"
        />
 
-       <view class="my-status" style="gap: 10rpx; flex-grow: 1">
-         <view style="font-size: 1.1rem; font-weight: bold;">
-           <view v-if="user.uid" style="display: flex; align-items: center; justify-content: flex-start; position: relative">
+       <view class="my-status" style="gap: 10rpx; flex-grow: 1; font-size: 22rpx; color: #333333;">
+         <view style="font-weight: 500;font-size: 30rpx; color: #333333;">
+           <view v-if="user.uid" style="display: flex; align-items: center; justify-content: flex-start; position: relative;">
              <view style="max-width: 400rpx; overflow: auto; text-overflow: ellipsis; white-space: nowrap">{{ user.nickname || '微信用户' }}</view>
-             <image v-if="user.vip_type" style="width: 32rpx; padding-left: 20rpx" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/vip-icon.png"></image>
+             <image v-if="user.vip_type" style="width: 39rpx; padding-left: 20rpx" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/icon2.png"></image>
+             <image v-else style="width: 39rpx; padding-left: 20rpx" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/icon1.png"></image>
              <input style="position: absolute; left: 0; max-width: 400rpx; overflow: auto; text-overflow: ellipsis" class="username" type="nickname" :value="user.nickname || '微信用户'" @change="nicknameChange">
            </view>
            <view v-else @click="toRouter('/pages/login/index')">
-             登录/注册
+             未登录
            </view>
          </view>
 
-         <view v-if="!user.uid" @click="toRouter('/pages/login/index')">登录后体验更多功能</view>
+         <view v-if="!user.uid" @click="toRouter('/pages/login/index')">您还未登录 请先登录</view>
          <view v-else>ID:{{user.uid}}</view>
        </view>
      </view>
 
      <view class="join-vip">
-       <!--<image style="width: 54rpx; padding-right: 20rpx" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/vip-icon.png"></image>-->
+       <image @click="toRouter('/pages/login/index')" v-if="!user.uid" class="vip-bg" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/bg3.png" />
+       <image @click="toMember" v-else-if="!user.vip_type" class="vip-bg" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/bg1.png" />
+       <image @click="toMember" v-else class="vip-bg" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/bg2.png" />
 
        <view class="flex-1" :style="{ paddingTop: platform === 'ios' ? '20rpx' : '0' }">
-         <view class="join-vip_name">VIP会员</view>
-         <view v-if="!user.vip_type && platform !== 'ios'" class="join-vip_tip">开通会员，每天低至0.35元</view>
-         <view class="join-vip_tip" v-else-if="user.vip_type > 0">
+         <view class="join-vip_tip" v-if="user.vip_type > 0">
            {{user.vip_end_time}}到期
          </view>
        </view>
 
-       <button @click="toMember" class="join-bottom">
-         <view v-if="!user.vip_type" style="pcolor: #532D17; font-weight: bold">立即开通</view>
-         <view style="color: #532D17; font-weight: bold" v-else>续费会员</view>
+       <button class="join-bottom" @click="toMember" v-if="user.uid">
+         <view v-if="!user.vip_type">立即开通</view>
+         <view v-else>立即续费</view>
        </button>
      </view>
    </view>
 
-   <view class="global-m_y">
-     <view class="icon1"></view>
+  <view class="menu-box">
+    <view class="global-m_y">
+      <wd-cell is-link @click="jump" :customStyle="{ paddingBottom: '16rpx', backgroundColor: 'transparent' }">
+        <template #title>
+          <text style="color: #333333; font-weight: bold; font-size: 30rpx">账号</text>
+        </template>
+        <template #icon>
+          <image class="my-cell_img" mode="heightFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/m1.png"></image>
+        </template>
+        <view></view>
+      </wd-cell>
+      <wd-cell is-link to="/pages/message/index" :customStyle="{ paddingBottom: '16rpx' }">
+        <template #title>
+          <text style="color: #333333; font-weight: bold; font-size: 30rpx">消息与通知</text>
+        </template>
 
-     <wd-cell is-link @click="jump" :customStyle="{ paddingBottom: '16rpx', backgroundColor: 'transparent' }">
-       <template #title>
-         <text style="color: #333333; font-weight: bold; font-size: 30rpx">账号</text>
-       </template>
-       <template #icon>
-         <image class="my-cell_img" mode="heightFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon9/m1.png"></image>
-       </template>
-       <view></view>
-     </wd-cell>
-     <wd-cell is-link to="/pages/message/index" :customStyle="{ paddingBottom: '16rpx' }">
-       <template #title>
-         <text style="color: #333333; font-weight: bold; font-size: 30rpx">消息与通知</text>
-       </template>
+        <template #icon>
+          <image class="my-cell_img" mode="heightFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/m2.png"></image>
+        </template>
+        <view></view>
+      </wd-cell>
 
-       <template #icon>
-         <image class="my-cell_img" mode="heightFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon9/m2.png"></image>
-       </template>
-       <view></view>
-     </wd-cell>
-
-     <wd-cell is-link @click="permissionsSetting" :customStyle="{ paddingBottom: '16rpx' }">
-       <template #title>
-         <text style="color: #333333; font-weight: bold; font-size: 30rpx">权限设置</text>
-       </template>
-       <template #icon>
-         <image class="my-cell_img" mode="heightFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon9/m3.png"></image>
-       </template>
-       <view></view>
-     </wd-cell>
-     <button class="contact-btn" @click="openContact" style="margin-bottom: 16rpx">
-       <image class="my-cell_img" mode="heightFix" style="position: relative; top: 0" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon9/m4.png"></image>
-       <text style="color: #333333; font-weight: bold; font-size: 30rpx">客服中心</text>
-       <view style="color: #cccccc;">
-         <wd-icon name="arrow-right"></wd-icon>
-       </view>
-     </button>
-     <wd-cell is-link to="/pages/opinion/index" :customStyle="{ paddingBottom: '16rpx' }">
-       <template #title>
-         <text style="color: #333333; font-weight: bold; font-size: 30rpx">意见与反馈</text>
-       </template>
-       <template #icon>
-         <image class="my-cell_img" mode="heightFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon9/m5.png"></image>
-       </template>
-       <view></view>
-     </wd-cell>
-     <wd-cell is-link to="/pages/help/index" :customStyle="{ paddingBottom: '16rpx' }">
-       <template #title>
-         <text style="color: #333333; font-weight: bold; font-size: 30rpx">帮助</text>
-       </template>
-       <template #icon>
-         <image class="my-cell_img" mode="heightFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon9/m6.png"></image>
-       </template>
-       <view></view>
-     </wd-cell>
-     <wd-cell is-link @click="toMessage">
-       <template #title>
-         <text style="color: #333333; font-weight: bold; font-size: 30rpx">检查更新</text>
-       </template>
-       <template #icon>
-         <image class="my-cell_img" mode="heightFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon9/m7.png"></image>
-       </template>
-       <view></view>
-     </wd-cell>
-   </view>
+      <wd-cell is-link @click="permissionsSetting" :customStyle="{ paddingBottom: '16rpx' }">
+        <template #title>
+          <text style="color: #333333; font-weight: bold; font-size: 30rpx">权限设置</text>
+        </template>
+        <template #icon>
+          <image class="my-cell_img" mode="heightFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/m3.png"></image>
+        </template>
+        <view></view>
+      </wd-cell>
+      <button class="contact-btn" @click="openContact" style="margin-bottom: 16rpx">
+        <image class="my-cell_img" mode="heightFix" style="position: relative; top: 0" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/m4.png"></image>
+        <text style="color: #333333; font-weight: bold; font-size: 30rpx">客服中心</text>
+        <view style="color: #cccccc;">
+          <wd-icon name="arrow-right"></wd-icon>
+        </view>
+      </button>
+      <wd-cell is-link to="/pages/opinion/index" :customStyle="{ paddingBottom: '16rpx' }">
+        <template #title>
+          <text style="color: #333333; font-weight: bold; font-size: 30rpx">意见与反馈</text>
+        </template>
+        <template #icon>
+          <image class="my-cell_img" mode="heightFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/m5.png"></image>
+        </template>
+        <view></view>
+      </wd-cell>
+      <wd-cell is-link to="/pages/help/index" :customStyle="{ paddingBottom: '16rpx' }">
+        <template #title>
+          <text style="color: #333333; font-weight: bold; font-size: 30rpx">帮助</text>
+        </template>
+        <template #icon>
+          <image class="my-cell_img" mode="heightFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/m6.png"></image>
+        </template>
+        <view></view>
+      </wd-cell>
+      <wd-cell is-link @click="toMessage">
+        <template #title>
+          <text style="color: #333333; font-weight: bold; font-size: 30rpx">检查更新</text>
+        </template>
+        <template #icon>
+          <image class="my-cell_img" mode="heightFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/m7.png"></image>
+        </template>
+        <view></view>
+      </wd-cell>
+    </view>
+  </view>
 
    <wd-message-box selector="wd-contact-box-slot"></wd-message-box>
  </view>
@@ -158,6 +159,7 @@ const permissionsSetting = () => {
   })
 }
 
+// TODO 客服
 const openContact = () => {
   contactMessage.confirm({
     title: '将跳转至“微信”打开客服聊天窗口',
@@ -286,6 +288,8 @@ page {
 <style scoped lang="scss">
 .my-index {
   height: 100%;
+  background: url("https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/bg.png") left top/100% auto no-repeat;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   --wot-message-box-width: 600rpx;
@@ -293,13 +297,7 @@ page {
 
 .my-nav{
   flex-shrink: 0;
-  background: url("https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/my_page_bg1.png") left top/100% auto no-repeat;
-  height: 420rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  padding-top: 40rpx;
+  padding-top: 200rpx;
 }
 .my-cell{
   --wot-color-white: none;
@@ -310,27 +308,29 @@ page {
   flex-direction: column;
   justify-content: center;
   margin-left: 0.6rem;
-  color: #fff;
+  color: #333333;
 }
 .join-vip{
-  position: absolute;
-  left: 30rpx;
-  right: 30rpx;
-  bottom: -20rpx;
-  color: #EFD4B8;
-  height: 130rpx;
-  padding-top: 20rpx;
-  padding-left: 140rpx;
-  padding-right: 30rpx;
-  --wot-button-primary-bg-color: rgba(243, 226, 181, 1);
-  --wot-button-primary-color: rgba(83, 45, 23, 1);
-  background: url('https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/vip-detail-bg.png');
-  background-size: 100% auto;
-  display: flex;
+  margin-top: 27rpx;
+  margin-bottom: 53rpx;
+  padding: 0 30rpx;
+  position: relative;
 
   button {
     align-self: flex-start;
     margin-top: 16rpx;
+  }
+
+  .vip-bg {
+    width: 100%;
+  }
+
+  .vip-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
   }
 }
 .join-vip_name{
@@ -339,15 +339,35 @@ page {
   margin-bottom: 4rpx;
 }
 .join-vip_tip{
-  font-size: 24rpx;
+  font-size: 22rpx;
+  color: #9A9A9A;
+  position: absolute;
+  top: 172rpx;
+  left: 93rpx;
 }
 
 .join-bottom {
-  font-size: 26rpx;
-  background: linear-gradient(-5deg, #EECC91, #FAEABF);
-  border-radius: 32rpx;
-  width: 170rpx;
+  position: absolute;
+  top: 138rpx;
+  right: 88rpx;
+  width: 134rpx;
+  height: 52rpx;
+  background: #CDF022;
+  border-radius: 10rpx;
+  font-weight: 600;
+  font-size: 24rpx;
+  color: #212121;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
 }
+
+.menu-box {
+  padding: 0 30rpx;
+}
+
 .global-m_y{
   // --wot-card-padding: 0.4rem 0.6rem;
   // --wot-card-margin: 0;
@@ -355,22 +375,11 @@ page {
   flex-grow: 1;
   background: #FFFFFF;
   padding: 40rpx 0 0 0;
-  border-top-left-radius: 10rpx;
-  border-top-right-radius: 10rpx;
-  position: relative;
-  top: -8rpx;
-
-  .icon1 {
-    position: absolute;
-    top: 0;
-    left: calc(50% - 20rpx);
-    border-left: 20rpx solid transparent;
-    border-right: 20rpx solid transparent;
-    border-top: 20rpx solid #131419;
-  }
+  border-radius: 30rpx;
 }
 .my-cell_img{
-  height: 18px; 
+  height: 18px;
+  width: 18rpx;
   margin-right: 32rpx;
   position: relative;
   top: 6rpx;

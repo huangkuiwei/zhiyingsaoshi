@@ -33,7 +33,7 @@ export default {
     //     //       isModalShowing = true;
     //     //       uni.showModal({
     //     //         title: '提示',
-    //     //         content: '您当前未登录或登录已失效，为了您有更好的体验，扫妙需要您进行登录',
+    //     //         content: '您当前未登录或登录已失效，为了您有更好的体验，智映扫视需要您进行登录',
     //     //         showCancel: true,
     //     //         success: function (res) {
     //     //           if (res.confirm) {

@@ -7,7 +7,7 @@
             src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/receiveRedPacket/logo.png"
         />
 
-        <text>扫妙发出的红包</text>
+        <text>智映扫视发出的红包</text>
       </view>
 
       <view class="bottom">恭喜发财，大吉大利！</view>

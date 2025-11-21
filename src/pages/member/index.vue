@@ -1,29 +1,42 @@
 <template>
+  <view class="page-title">
+    <text>个人中心</text>
+
+    <view class="back" @click="toBack">
+      <uni-icons class="back" color="#ffffff" type="arrow-left" size="22"></uni-icons>
+    </view>
+  </view>
+
+  <view class="banner"> </view>
+
   <view class="member-top">
     <view style="width: calc(100% - 60rpx); display: flex; align-items: center; padding: 0 28rpx 0 32rpx">
       <image
-          style="height: 124rpx; border-radius: 50%; margin-right: 14rpx"
+          style="height: 121rpx; border-radius: 50%; margin-right: 14rpx"
           :src="user.avatar_url || `https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/default-head.png`"
           mode="heightFix"
       />
 
       <view style="display: flex; flex-direction: column; justify-content: center; gap: 10rpx; flex-grow: 1; margin-right: 10rpx">
-        <view :style="{ fontWeight: 'bold', paddingLeft: '10rpx' }">
-          <view v-if="!user.uid">未登录</view>
+        <view :style="{ fontWeight: 'bold', paddingLeft: '10rpx' }" style="display: flex; align-items: center">
+          <view v-if="!user.uid" @click="login">未登录</view>
           <view v-else>{{user.nickname || '微信用户'}}</view>
+
+          <image v-if="user.vip_type" style="width: 39rpx; padding-left: 20rpx" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/icon2.png"></image>
+          <image v-else-if="user.vip_type === 0" style="width: 39rpx; padding-left: 20rpx" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/icon1.png"></image>
         </view>
 
-        <view style="font-size: 0.8rem; padding-left: 10rpx; align-self: self-start">
-          <view v-if="!user.uid && platform !== 'ios'">
-            低至每天<text style="color: rgba(246, 225, 177, 1); font-size: 1rem;">0.35</text>元，畅享全部权益
+        <view style="font-size: 22rpx; padding-left: 10rpx; align-self: self-start">
+          <view v-if="!user.uid" @click="login">
+            您还未登录 请先登录
           </view>
           <view
               v-if="user.uid"
-              style="display: flex; align-items: center; align-self: self-start; color: #B09D6D; background: #FCF0D1; padding: 0 12rpx; font-size: 0.6rem; border-radius: 5px; height: 20px;"
+              style="display: flex; align-items: center; align-self: self-start; color: #ffffff; background: #FFFFFF50; border-radius: 19rpx; padding: 0 12rpx; font-size: 0.6rem; height: 20px;"
           >
             <wd-icon v-if="user.vip_type" custom-class="iconfont" class-prefix="icon" name="Silver" color="#BF932A" size="14"></wd-icon>
             <view style="margin-left: 0.2rem;">
-              <text v-if="user.vip_type === 0">免费用户</text>
+              <text v-if="user.vip_type === 0">尚未开通VIP</text>
               <text v-if="user.vip_type === 1">日会员</text>
               <text v-if="user.vip_type === 5">月会员</text>
               <text v-if="user.vip_type === 8">年会员</text>
@@ -39,18 +52,26 @@
   </view>
   
   <view class="member-content">
-    <view class="global-m" style="padding-bottom: 400rpx; padding-top: 20rpx;">
-      <view style="height: 0.5rem;"></view>
+    <view class="vip-title">会员套餐</view>
+
+    <view style="padding-bottom: 400rpx;">
       <view class="member-grid" v-if="platform !== 'ios'">
         <view @click="memberSelect(item)" class="member-grid_li" :class="{'active': item.select}" v-for="(item,index) in lists" :key="index">
-          <image v-if="item.recommend" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon8/recommend.png" class="recommend"/>
+          <!--<image v-if="item.recommend" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon8/recommend.png" class="recommend"/>-->
 
-          <view style="padding: 0 0 10rpx 0; font-size: 22rpx; color: #4D3924">{{item.name}}</view>
+          <view style="padding: 0 0 20rpx 0; font-size: 20rpx; color: #CDF022">{{item.name}}</view>
           <view class="member-price">
             <view class="tip">¥</view>
             <view class="price">{{ item.forever }}</view>
-            <view class="tip">{{item.unit}}</view>
+            <!--<view class="tip">{{item.unit}}</view>-->
           </view>
+
+          <view class="price1">
+            <text v-if="item.id === 10000">￥45</text>
+            <text v-if="item.id === 10001">￥368</text>
+            <text v-if="item.id === 10009">￥39.9</text>
+          </view>
+
           <!--<view class="proto" style="margin-top: 0.3rem; font-size: 0.7rem;">-->
           <!--  原价¥{{item.proto}}-->
           <!--</view>-->
@@ -60,60 +81,47 @@
         </view>
       </view>
 
-      <view class="shop-detail">
-        <image mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon8/shop-detail1.png"/>
+      <view class="member-t">
+        会员尊享<text style="color: #CDF022">19+</text>特权
+      </view>
 
-        <view class="vip-detail">
-          <view class="title">
-            <text>会员权益</text>
-            <text>对比</text>
+      <view class="member-icons">
+        <view class="member-icons-item" v-for="(item,index) in icons" :key="index">
+          <image class="icon" mode="widthFix" :src="item.src"></image>
+          <view class="name">
+            {{ item.name }}
           </view>
         </view>
+      </view>
 
+      <view class="member-t" style="padding: 10rpx 0 30rpx 0">
+        会员特权<text style="color: #CDF022">对比</text>
+      </view>
+
+      <view class="shop-detail">
         <image
             style="width: 104%; position: relative; left: -2%"
             mode="widthFix"
-            src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon8/shop-detail2.png"
+            src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/member/des.png"
         />
-
-        <view class="vip-detail">
-          <view class="title">
-            <text>用户</text>
-            <text>评价</text>
-          </view>
-        </view>
-
-        <view class="detail3">
-          <image mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon8/shop-detail3.png"/>
-        </view>
       </view>
     </view>
   </view>
 
-  <wd-popup :close-on-click-modal="false" :modal="false" v-model="show" position="bottom" custom-style="height: 180px; box-shadow: 0 -5px 5px #eee;">
-    <view class="global-m" v-if="platform !== 'ios'" style="padding: 0 1rem">
-      <view class="d-flex-center" style="padding-top: 0 !important">
-        <view class="d-flex-center">
-          <wd-icon :name="radio==1?'check-circle-filled':'circle1'" size="26px" :color="radio==1?'rgba(92, 155, 244, 1)':'rgba(153, 153, 153, 1)'"></wd-icon>
-          <image style="height: 54rpx; margin-left: 0.5rem;" mode="heightFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/images/wx_icon.png"></image>
-          <view style="color: #999999; margin-left: 0.5rem;">微信支付</view>
-        </view>
-        <!-- <view class="d-flex-center" style="margin-left: 1.5rem;">
-          <wd-icon :name="radio==2?'check-circle-filled':'circle1'" size="26px" :color="radio==2?'rgba(92, 155, 244, 1)':'rgba(153, 153, 153, 1)'"></wd-icon>
-          <image style="height: 40px; margin-left: 0.5rem;" mode="heightFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/images/zhifubao.png"></image>
-          <view style="color: rgba(153, 153, 153, 1); margin-left: 0.5rem;">微信支付</view>
-        </view> -->
+  <wd-popup :close-on-click-modal="false" :modal="false" v-model="show" position="bottom" custom-style="background: #1D1D27">
+    <view v-if="platform === 'ios'" style="padding: 40rpx 1.5rem">
+      <view class="buy-btn" @click="onPay(price, openid, agree, user)">
+        <text style="font-weight: bold">{{ user.vip_type ? '立即续费' : '立即开通' }}</text>
+        <text style="font-size: 26rpx">{{ price.forever }}元</text>
       </view>
-      <view style="height: 1.5rem;"></view>
-      <wd-button @click="onPay(price, openid, agree, user)" type="error" block size="large">立即开通</wd-button>
-      <view class="d-flex-center member-xieyi">
+      <view class="member-xieyi">
         <checkbox-group :value="agree" @change="agree = $event.detail.value">
           <label style="display: flex; align-items: center">
             <checkbox style="transform: scale(0.6)" value="1"></checkbox>
-            <text>请阅读并同意</text>
+            <text>开通会员前请阅读并同意</text>
           </label>
         </checkbox-group>
-        <text style="color: rgba(35, 156, 247, 1); margin-left: 3px;" @click="toRouter(`/pages/vipProtocol/index`, `title=${encodeURIComponent('会员协议')}`)">会员协议</text>
+        <text style="margin-left: 3px;" @click="toRouter(`/pages/vipProtocol/index`, `title=${encodeURIComponent('会员协议')}`)">《购买协议》</text>
       </view>
     </view>
 
@@ -189,7 +197,11 @@ onShareAppMessage(() => {
   }
 })
 
+const toBack = () => {
+  uni.navigateBack();
+}
 
+// TODO 客服
 const openContact = () => {
   uni.openCustomerServiceChat({
     corpId: 'wwd8a1200c46e63718',
@@ -208,8 +220,8 @@ const price = computed(() => {
 
 const getProductList = async () => {
   $http.get('api/global/product/get').then(res => {
-    // 扫妙日会员暂时不做显示
-    let index = res.data.findIndex(item => item.product_name === '扫妙日会员')
+    // 智映扫视日会员暂时不做显示
+    let index = res.data.findIndex(item => item.product_name === '智映扫视日会员')
 
     res.data.forEach(item => {
       item.recommend = false
@@ -221,7 +233,7 @@ const getProductList = async () => {
 
     res.data.push({
       price: 2990,
-      product_name: '扫妙连续包月',
+      product_name: '智映扫视连续包月',
       id: 10009,
       recommend: true
     })
@@ -300,18 +312,47 @@ const login = () => {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 page{
-  --wot-button-error-bg-color: rgba(229, 22, 22, 1);
-  --wot-button-large-height: 3rem;
-  --wot-button-large-fs: 1.4rem;
+  background: #030203 url("https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/member/bg1.png") left top/100% auto no-repeat;
+  --page-title-height: calc(var(--status-bar-height) + 120rpx);
 }
+</style>
+
+<style scoped lang="scss">
+.page-title {
+  --page-title-padding-top: calc(var(--status-bar-height) + 68rpx);
+  position: fixed;
+  height: calc(var(--page-title-height));
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding-top: calc(var(--page-title-padding-top));
+  color: #ffffff;
+  font-size: 32rpx;
+  font-weight: bold;
+  z-index: 9;
+  box-sizing: border-box;
+
+  .back {
+    position: absolute;
+    bottom: 6rpx;
+    left: 15rpx;
+  }
+}
+
+.page-title {
+}
+
+.banner {
+  padding: calc(var(--page-title-height) + 40rpx) 0 0;
+}
+
 .member-top{
-  height: 200px;
-  padding-top: 40rpx;
+  margin-bottom: 50rpx;
   display: flex;
   align-items: center;
-  background: url("https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/vip-bg.png") left top/100% 100% no-repeat;
   --wot-color-white: none;
   color: #fff;
   --wot-cell-title-fs: 1rem;
@@ -340,43 +381,50 @@ page{
 }
 
 .member-content{
-  border-radius: 30rpx 30rpx 0 0;
-  margin-top: -1.8rem;
-  background: #F7F7F7;
+  padding: 0 60rpx;
+
+  .vip-title {
+    font-weight: 500;
+    font-size: 28rpx;
+    color: #FFFFFF;
+    margin-bottom: 28rpx;
+  }
 }
 .member-grid{
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+
   .proto{
     color: rgba(218, 198, 186, 1);
   }
   .forever{
     padding: 24rpx 0 6rpx;
-    color: #B87A2F;
-    font-size: 24rpx;
+    color: #A1A1A2;
+    font-size: 22rpx;
   }
   .active{
-    background: url("https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon8/shop-bg1.png") left top/ 100% 100% no-repeat;
+    background: url("https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/member/bg3.png?t=123") left top/ 100% 100% no-repeat;
     .price{
-      color: #FD502C;
+      color: #CDF022;
     }
     .tip{
-      color: #FD502C;
+      color: #CDF022;
     }
     .proto{
-      color: rgba(222, 198, 173, 1);
+      color: #CDF022;
     }
     .forever{
-      color: #FFFFFF;
+      color: #A1A1A2;
     }
   }
 }
 .member-grid_li{
-  background: url("https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon8/shop-bg2.png") left top/ 100% 100% no-repeat;
+  background: url("https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/member/bg2.png?t=123") left top/ 100% 100% no-repeat;
   text-align: center;
-  padding-top: 50rpx;
+  padding-top: 32rpx;
   position: relative;
+  width: 33%;
 
   .recommend {
     position: absolute;
@@ -396,21 +444,55 @@ page{
     font-size: 52rpx;
     font-weight: bold;
     padding: 0;
-    color: #854E12;
+    color: #CDF022;
   }
+
   .tip{
     display: flex;
     height: 32rpx;
     align-items: flex-end;
     position: relative;
     top: 10rpx;
-    color: #B87A2F;
+    color: #CDF022;
+  }
+}
+
+.price1 {
+  margin: 10rpx 0 5rpx;
+  font-size: 20rpx;
+  color: #A7A7A7;
+  text-decoration: line-through;
+}
+
+.member-icons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+
+  .member-icons-item {
+    width: 25%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24rpx;
+    margin-bottom: 35rpx;
+
+    .icon {
+      width: 80rpx;
+    }
+
+    .name {
+      font-size: 24rpx;
+      color: #FFFFFF;
+    }
   }
 }
 
 .shop-detail {
-  margin-top: 30rpx;
-
   image {
     width: 100%;
   }
@@ -426,7 +508,10 @@ page{
 .member-t{
   display: flex;
   align-items: center;
-  padding: 1rem 0 0.2rem 0;
+  padding: 69rpx 0 43rpx 0;
+  font-weight: 500;
+  font-size: 28rpx;
+  color: #FFFFFF;
 }
 .member-xieyi{
   margin-top: 0.2rem;
@@ -558,19 +643,46 @@ page{
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 100rpx;
+  padding: 50rpx 1.5rem;
 
   .buy-tip {
     text-align: center;
     font-size: 30rpx;
     margin-bottom: 30rpx;
+    color: #ffffff;
   }
 
   .contact-btn {
     width: 100%;
-    color: #ffffff;
-    background: #FA4350;
-    border-radius: 999px;
+    box-sizing: border-box;
+    background: linear-gradient(to right, #F0F900 0%, #96FF01 100%);
+    border-radius: 16rpx;
+    height: 81rpx;
+    color: #000000;
+    font-size: 30rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+}
+
+.buy-btn {
+  width: 100%;
+  background: linear-gradient(to right, #F0F900 0%, #96FF01 100%);
+  border-radius: 16rpx;
+  height: 81rpx;
+  color: #000000;
+  font-size: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20rpx;
+}
+
+.member-xieyi {
+  padding: 20rpx 0 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

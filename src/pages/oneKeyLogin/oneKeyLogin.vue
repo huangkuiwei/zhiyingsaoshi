@@ -1,12 +1,21 @@
 <template>
   <view class="login-page">
     <view class="logo">
-      <uni-icons style="margin-bottom: 90rpx" type="arrow-left" size="30" @click="toBack" />
+      <uni-icons type="left" size="30" @click="toBack" />
+    </view>
+
+    <view class="logo-img">
+      <wd-img
+          width="147rpx"
+          height="140rpx"
+          src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/login/logo.png"
+      ></wd-img>
 
       <wd-img
-          width="310rpx"
-          height="117rpx"
-          src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/login-logo.png"
+          v-if="loginType === 0"
+          width="357rpx"
+          height="51rpx"
+          src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/login/logo2.png"
       ></wd-img>
     </view>
 
@@ -84,26 +93,33 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 page {
   height: 100%;
-  background: url("https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/login_bg.png") left top/100% 100% no-repeat;
+  // TODO 背景有问题
+  background: #FFFFFF linear-gradient(228deg, #D5F1FD 0%, #D5F5C2 33%, #D6F985 100%) left top/100% 483rpx no-repeat;
 }
 </style>
 
 <style scoped lang="scss">
 .login-page {
   height: 100%;
-  background: url('https://hnenjoy.oss-cn-shanghai.aliyuncs.com/food-diary-app/login/login-bg.png') top left/100% 100%
-    no-repeat;
-  padding-bottom: 60rpx;
   display: flex;
   flex-direction: column;
 
   .logo{
-    padding: 95rpx 0 103rpx 44rpx;
+    padding: 105rpx 0 128rpx 20rpx;
     display: flex;
     flex-direction: column;
+  }
+
+  .logo-img {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 52rpx;
+    margin-bottom: 60rpx;
   }
 
   .banner {
@@ -127,16 +143,19 @@ page {
 
     .login {
       width: 560rpx;
-      height: 90rpx;
-      background: #0abf92;
-      border-radius: 45rpx;
       font-weight: 500;
       font-size: 32rpx;
-      color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 29rpx;
+      border-radius: 16rpx;
+      background: #CDF022;
+      color: #030203;
+      font-weight: 500;
+      font-size: 32rpx;
+      height: 100rpx;
+      line-height: 100rpx;
     }
 
     .other-login {
@@ -152,8 +171,8 @@ page {
       align-items: center;
 
       .login-agree_text{
-        color: #333333;
-        font-size: 0.8rem;
+        color: #030203;
+        font-size: 22rpx;
         display: flex;
       }
     }
