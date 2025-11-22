@@ -196,8 +196,8 @@ page {
     }
 
     .btn {
-      background: #00D7AD;
-      color: #ffffff;
+      background: #CDF022;
+      color: #212121;
       border-radius: 40rpx;
       height: 80rpx;
       display: flex;
@@ -223,7 +223,7 @@ page {
     input {
       width: 100%;
       height: 90rpx;
-      border-bottom: 1px solid #00D7AD;
+      border-bottom: 1px solid #CDF022;
       background: #ffffff;
       font-size: 36rpx;
     }
@@ -240,8 +240,8 @@ page {
     .phone {
       box-sizing: border-box;
       width: 100%;
-      border: 1px solid #00D7AD;
-      color: #111111;
+      border: 1px solid #CDF022;
+      color: #212121;
       font-size: 34rpx;
       border-radius: 50rpx;
       height: 100rpx;
@@ -250,8 +250,8 @@ page {
     }
 
     .btn {
-      background: #00D7AD;
-      color: #ffffff;
+      background: #CDF022;
+      color: #212121;
       border-radius: 40rpx;
       height: 80rpx;
       display: flex;

@@ -1311,10 +1311,10 @@ export default {
 }
 
 .submit, .close, .check {
-  background: #00D7AD;
+  background: #CDF022;
   border-radius: 999px;
   font-size: 28rpx;
-  color: #ffffff;
+  color: #212121;
   width: 200rpx;
   margin: 0;
   padding: 0;

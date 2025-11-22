@@ -41,26 +41,26 @@
   <wd-popup
       :closable="false"
       :modelValue="countTipDialog"
-      custom-style="width: 570rpx; background: transparent; top: calc(50vh - 380rpx); margin: 0 auto;"
+      custom-style="width: 750rpx; background: transparent; top: calc(50vh - 600rpx); margin: 0 auto;"
       position="top"
       :z-index="99999"
   >
     <view class="count-tip-container">
       <view class="close">
-        <image @click="countTipDialog = false" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon11/close-icon.png" />
+        <image @click="countTipDialog = false" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/icon/close.png" />
       </view>
-      <image src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/vip-dialog-bg.png" mode="widthFix" />
+      <image src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/icon/vip-dialog-bg.png" mode="widthFix" />
       <view class="btn" @click="toRouter('/pages/member/index')">
-        <image mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/buy-btn.png" />
+        <image mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/icon/buy-btn.png" />
       </view>
 
       <view class="count-info">
         <view class="count-number">
-          <image mode="heightFix" style="height: 76rpx" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon11/0chance.png" v-if="count === 0"/>
-          <image mode="heightFix" style="height: 76rpx" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon11/1chance.png" v-if="count === 1"/>
-          <image mode="heightFix" style="height: 76rpx" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon11/2chance.png" v-if="count === 2"/>
+          <image mode="heightFix" style="height: 76rpx" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/icon/0chance.png" v-if="count === 0"/>
+          <image mode="heightFix" style="height: 76rpx" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/icon/1chance.png" v-if="count === 1"/>
+          <image mode="heightFix" style="height: 76rpx" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/icon/2chance.png" v-if="count === 2"/>
         </view>
-        <view class="join">加入会员享受全部权益</view>
+
       </view>
     </view>
   </wd-popup>
@@ -69,7 +69,7 @@
 <script setup>
 import { ref } from "vue";
 import $http from '@/hooks/http'
-import { onShareAppMessage, onShow } from '@dcloudio/uni-app'
+import { onLoad, onShareAppMessage, onShow } from '@dcloudio/uni-app'
 import { toRouter } from '@/hooks/utils'
 
 const previewImg = ref('')
@@ -99,6 +99,12 @@ const getCount = () => {
     count.value = res.data.left
   })
 }
+
+onLoad((options) => {
+  if (options.url) {
+    picHandler([options.url])
+  }
+})
 
 onShow(async () => {
   await getCount()
@@ -138,57 +144,60 @@ const chooseImage = async () => {
     sizeType: ['original', 'compressed'],
     sourceType: ['album'],
     success: async (response) => {
-      removeWatermarkUrl.value = ''
-      hasDrawing.value = false
-
-      const tempFilePaths = response.tempFilePaths;
-      originalImgInfo.value = await getImageInfo(tempFilePaths[0])
-      previewImg.value = tempFilePaths[0]
-      let screenWidth = uni.getWindowInfo().screenWidth
-
-      console.log((700 / 750) * screenWidth)
-
-      setTimeout(() => {
-        wx.createSelectorQuery()
-            .select('#paintImage') // 在 WXML 中填入的 id
-            .boundingClientRect()
-            .exec(nodes => {
-              let imageNode = nodes[0]
-
-              console.log('imageNode', imageNode)
-
-              if (imageNode.width / imageNode.height < originalImgInfo.value.width / originalImgInfo.value.height) {
-                canvasStyle.value.width = imageNode.width + 'px'
-                canvasStyle.value.height = (originalImgInfo.value.height / originalImgInfo.value.width) * imageNode.width + 'px'
-              } else {
-                canvasStyle.value.height = imageNode.height + 'px'
-                canvasStyle.value.width = (originalImgInfo.value.width / originalImgInfo.value.height) * imageNode.height + 'px'
-              }
-
-              wx.createSelectorQuery()
-                  .select('#paintCanvas') // 在 WXML 中填入的 id
-                  .node(async ({ node: canvas }) => {
-                    paintCanvas = canvas
-
-                    if (imageNode.width / imageNode.height < originalImgInfo.value.width / originalImgInfo.value.height) {
-                      canvas.width = imageNode.width;
-                      canvas.height = (originalImgInfo.value.height / originalImgInfo.value.width) * canvas.width;
-                    } else {
-                      canvas.height = imageNode.height;
-                      canvas.width = (originalImgInfo.value.width / originalImgInfo.value.height) * canvas.height;
-                    }
-
-                    ctx = canvas.getContext('2d')
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                  })
-                  .exec()
-            })
-      }, 100)
+      picHandler(response.tempFilePaths)
     },
     fail: (err) => {
       console.log(err);
     }
   });
+}
+
+const picHandler = async (tempFilePaths) => {
+  removeWatermarkUrl.value = ''
+  hasDrawing.value = false
+
+  originalImgInfo.value = await getImageInfo(tempFilePaths[0])
+  previewImg.value = tempFilePaths[0]
+  let screenWidth = uni.getWindowInfo().screenWidth
+
+  console.log((700 / 750) * screenWidth)
+
+  setTimeout(() => {
+    wx.createSelectorQuery()
+        .select('#paintImage') // 在 WXML 中填入的 id
+        .boundingClientRect()
+        .exec(nodes => {
+          let imageNode = nodes[0]
+
+          console.log('imageNode', imageNode)
+
+          if (imageNode.width / imageNode.height < originalImgInfo.value.width / originalImgInfo.value.height) {
+            canvasStyle.value.width = imageNode.width + 'px'
+            canvasStyle.value.height = (originalImgInfo.value.height / originalImgInfo.value.width) * imageNode.width + 'px'
+          } else {
+            canvasStyle.value.height = imageNode.height + 'px'
+            canvasStyle.value.width = (originalImgInfo.value.width / originalImgInfo.value.height) * imageNode.height + 'px'
+          }
+
+          wx.createSelectorQuery()
+              .select('#paintCanvas') // 在 WXML 中填入的 id
+              .node(async ({ node: canvas }) => {
+                paintCanvas = canvas
+
+                if (imageNode.width / imageNode.height < originalImgInfo.value.width / originalImgInfo.value.height) {
+                  canvas.width = imageNode.width;
+                  canvas.height = (originalImgInfo.value.height / originalImgInfo.value.width) * canvas.width;
+                } else {
+                  canvas.height = imageNode.height;
+                  canvas.width = (originalImgInfo.value.width / originalImgInfo.value.height) * canvas.height;
+                }
+
+                ctx = canvas.getContext('2d')
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+              })
+              .exec()
+        })
+  }, 100)
 }
 
 const getImageInfo = (path) => {

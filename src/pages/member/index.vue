@@ -220,8 +220,8 @@ const price = computed(() => {
 
 const getProductList = async () => {
   $http.get('api/global/product/get').then(res => {
-    // 智映扫视日会员暂时不做显示
-    let index = res.data.findIndex(item => item.product_name === '智映扫视日会员')
+    // 日会员暂时不做显示
+    let index = res.data.findIndex(item => item.product_name.includes('日会员'))
 
     res.data.forEach(item => {
       item.recommend = false
@@ -233,7 +233,7 @@ const getProductList = async () => {
 
     res.data.push({
       price: 2990,
-      product_name: '智映扫视连续包月',
+      product_name: '连续包月',
       id: 10009,
       recommend: true
     })

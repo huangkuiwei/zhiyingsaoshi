@@ -163,7 +163,7 @@ body{
 
   .count-info {
     position: absolute;
-    top: 160rpx;
+    top: 500rpx;
     left: 0;
     right: 0;
     bottom: 0;
@@ -199,7 +199,8 @@ body{
   .close {
     text-align: right;
     position: relative;
-    top: 20rpx;
+    top: 260rpx;
+    right: 120rpx;
 
     image {
       width: 54rpx;
@@ -207,14 +208,18 @@ body{
   }
 
   .btn {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100rpx;
+    text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
     z-index: 9;
 
     image {
-      width: 324rpx;
+      width: 398rpx;
     }
   }
 }

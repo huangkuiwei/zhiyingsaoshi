@@ -84,34 +84,34 @@ t<template>
         <wd-button @click="save">保存到相册</wd-button>
       </div>
     </wd-popup>
-
-    <wd-popup
-        :closable="false"
-        :modelValue="countTipDialog"
-        custom-style="width: 570rpx; background: transparent; top: calc(50vh - 380rpx); margin: 0 auto;"
-        position="top"
-        :z-index="99999"
-    >
-      <view class="count-tip-container">
-        <view class="close">
-          <image @click="countTipDialog = false" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon11/close-icon.png" />
-        </view>
-        <image src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/vip-dialog-bg.png" mode="widthFix" />
-        <view class="btn" @click="toRouter('/pages/member/index')">
-          <image mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/buy-btn.png" />
-        </view>
-
-        <view class="count-info">
-          <view class="count-number">
-            <image mode="heightFix" style="height: 76rpx" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon11/0chance.png" v-if="count === 0"/>
-            <image mode="heightFix" style="height: 76rpx" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon11/1chance.png" v-if="count === 1"/>
-            <image mode="heightFix" style="height: 76rpx" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/assets/home/new/icon11/2chance.png" v-if="count === 2"/>
-          </view>
-          <view class="join">加入会员享受全部权益</view>
-        </view>
-      </view>
-    </wd-popup>
   </view>
+
+  <wd-popup
+      :closable="false"
+      :modelValue="countTipDialog"
+      custom-style="width: 750rpx; background: transparent; top: calc(50vh - 600rpx); margin: 0 auto;"
+      position="top"
+      :z-index="99999"
+  >
+    <view class="count-tip-container">
+      <view class="close">
+        <image @click="countTipDialog = false" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/icon/close.png" />
+      </view>
+      <image src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/icon/vip-dialog-bg.png" mode="widthFix" />
+      <view class="btn" @click="toRouter('/pages/member/index')">
+        <image mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/icon/buy-btn.png" />
+      </view>
+
+      <view class="count-info">
+        <view class="count-number">
+          <image mode="heightFix" style="height: 76rpx" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/icon/0chance.png" v-if="count === 0"/>
+          <image mode="heightFix" style="height: 76rpx" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/icon/1chance.png" v-if="count === 1"/>
+          <image mode="heightFix" style="height: 76rpx" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/icon/2chance.png" v-if="count === 2"/>
+        </view>
+
+      </view>
+    </view>
+  </wd-popup>
 </template>
 
 <script setup>
@@ -190,6 +190,13 @@ onLoad(async (options) => {
     if (count.value < 3) {
       countTipDialog.value = true
     }
+
+    if (count.value > 0 && options.url) {
+      pdfHandler({
+        name: Date.now().toString() + '.pdf',
+        path: options.url,
+      })
+    }
   }
 })
 
@@ -242,46 +249,48 @@ const choosePDFFile = async () => {
     type: 'file',
     extension: ['pdf'],
     success: async (response) => {
-      uni.showLoading({
-        title: '正在创建任务'
-      })
-
-      const tempFilePath = response.tempFiles[0];
-
-      let res = await $http.upload('api/global/fileupload/upload', tempFilePath.path).catch(() => {})
-
-      if (res?.data) {
-        let res2 = await $http.post(url.value, { file_url: res.data }).catch(() => {})
-        uni.hideLoading()
-
-        if (res2?.data) {
-          let taskInfo = {
-            ...res2.data,
-            status: '已创建',
-            name: tempFilePath.name,
-            file_urls: undefined,
-            file_datas: undefined,
-            showOptions: false
-          }
-          taskInfoList.value.unshift(taskInfo)
-          getResult(taskInfo)
-        } else{
-          uni.showToast({
-            title: '任务创建失败',
-            icon: 'none'
-          })
-        }
-      } else {
-        uni.showToast({
-          title: '图片上传失败',
-          icon: 'none'
-        })
-      }
+      pdfHandler(response.tempFiles[0])
     },
     fail: (err) => {
       console.log(err);
     }
   });
+}
+
+const pdfHandler = async (tempFilePath) => {
+  uni.showLoading({
+    title: '正在创建任务'
+  })
+
+  let res = await $http.upload('api/global/fileupload/upload', tempFilePath.path).catch(() => {})
+
+  if (res?.data) {
+    let res2 = await $http.post(url.value, { file_url: res.data }).catch(() => {})
+    uni.hideLoading()
+
+    if (res2?.data) {
+      let taskInfo = {
+        ...res2.data,
+        status: '已创建',
+        name: tempFilePath.name,
+        file_urls: undefined,
+        file_datas: undefined,
+        showOptions: false
+      }
+      taskInfoList.value.unshift(taskInfo)
+      getResult(taskInfo)
+    } else{
+      uni.showToast({
+        title: '任务创建失败',
+        icon: 'none'
+      })
+    }
+  } else {
+    uni.showToast({
+      title: '图片上传失败',
+      icon: 'none'
+    })
+  }
 }
 
 const getResult = async (taskInfo) => {
@@ -626,14 +635,14 @@ const save = () => {
 
     button {
       margin: 0;
-      background: #00D7AD;
+      background: #CDF022;
       border-radius: 35rpx;
       width: 200rpx;
       height: 70rpx;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #ffffff;
+      color: #212121;
       font-size: 30rpx;
     }
   }
