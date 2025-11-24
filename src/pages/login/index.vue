@@ -147,7 +147,7 @@ const getVercode = () => {
 onShareAppMessage(() => {
   return {
     title: '高清电子文档一键转换',
-    imageUrl: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/share-img.jpg',
+    imageUrl: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/share2.jpg',
     path: '/pages/index/index',
   }
 })
@@ -203,8 +203,7 @@ const goHome = () => {
 <style lang="scss">
 page {
   height: 100%;
-  // TODO 背景有问题
-  background: #FFFFFF linear-gradient(228deg, #D5F1FD 0%, #D5F5C2 33%, #D6F985 100%) left top/100% 483rpx no-repeat;
+  background: url("https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/login/bg.png") left top/100% 100% no-repeat;
 }
 
 .login-input {

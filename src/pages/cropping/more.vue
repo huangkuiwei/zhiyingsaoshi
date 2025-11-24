@@ -23,7 +23,7 @@ const toCrop = (url) => {
 onShareAppMessage(() => {
   return {
     title: '高清电子文档一键转换',
-    imageUrl: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/share-img.jpg',
+    imageUrl: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/share2.jpg',
     path: '/pages/index/index',
   }
 })

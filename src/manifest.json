@@ -46,7 +46,7 @@
             "sdkConfigs": {
                 "share" : {
                     "weixin" : {
-                        "appid" : "wx15116495cf66da6d",
+                        "appid" : "wx7493deda5f7a66b3",
                         "UniversalLinks" : "https://tools-api.xiaoohui.com"
                     }
                 }
@@ -57,7 +57,7 @@
     "quickapp": {},
     /* 小程序特有相关 */
     "mp-weixin": {
-        "appid": "wx15116495cf66da6d",
+        "appid": "wx7493deda5f7a66b3",
         "setting": {
             "urlCheck": false,
             "request": "https://tools-api.xiaoohui.com"

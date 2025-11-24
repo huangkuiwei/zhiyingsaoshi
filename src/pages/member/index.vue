@@ -109,7 +109,7 @@
   </view>
 
   <wd-popup :close-on-click-modal="false" :modal="false" v-model="show" position="bottom" custom-style="background: #1D1D27">
-    <view v-if="platform === 'ios'" style="padding: 40rpx 1.5rem">
+    <view v-if="platform !== 'ios'" style="padding: 40rpx 1.5rem">
       <view class="buy-btn" @click="onPay(price, openid, agree, user)">
         <text style="font-weight: bold">{{ user.vip_type ? '立即续费' : '立即开通' }}</text>
         <text style="font-size: 26rpx">{{ price.forever }}元</text>
@@ -127,7 +127,7 @@
 
     <view class="global-m contact-btn-m" v-else>
       <view class="buy-tip">由于相关规定，iOS版小程序暂不支持购买</view>
-      <button class="contact-btn" @click="openContact">联系客服</button>
+      <button class="contact-btn" open-type="contact">联系客服</button>
     </view>
     
   </wd-popup>
@@ -192,7 +192,7 @@ onLoad(() => {
 onShareAppMessage(() => {
   return {
     title: '高清电子文档一键转换',
-    imageUrl: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/share-img.jpg',
+    imageUrl: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/share2.jpg',
     path: '/pages/index/index',
   }
 })

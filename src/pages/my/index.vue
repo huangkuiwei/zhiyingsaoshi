@@ -84,7 +84,7 @@
         </template>
         <view></view>
       </wd-cell>
-      <button class="contact-btn" @click="openContact" style="margin-bottom: 16rpx">
+      <button class="contact-btn" open-type="contact" style="margin-bottom: 16rpx">
         <image class="my-cell_img" mode="heightFix" style="position: relative; top: 0" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/m4.png"></image>
         <text style="color: #333333; font-weight: bold; font-size: 30rpx">客服中心</text>
         <view style="color: #cccccc;">
@@ -181,7 +181,7 @@ const openContact = () => {
 onShareAppMessage(() => {
   return {
     title: '高清电子文档一键转换',
-    imageUrl: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/share-img.jpg',
+    imageUrl: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/share2.jpg',
     path: '/pages/index/index',
   }
 })

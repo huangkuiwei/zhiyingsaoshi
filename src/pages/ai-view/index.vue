@@ -20,14 +20,18 @@ onLoad((options) => {
   console.log(options);
   fid.value = options.id;
   if (options.url) {
-    if( options.url.indexOf(".pdf") >= 0 ){
-      src.value = decodeURIComponent(options.url);
-    } else {
-      src.value =
-      "https://file.wiiken.cn/onlinePreview?url=" +
-      Base64.encode(options.url);
-      console.log( src.value );
-    }
+    // if( options.url.indexOf(".pdf") >= 0 ){
+    //   src.value = decodeURIComponent(options.url);
+    // } else {
+    //   src.value =
+    //   "https://file.wiiken.cn/onlinePreview?url=" +
+    //   Base64.encode(options.url);
+    //   console.log( src.value );
+    // }
+
+    src.value =
+        "https://file.wiiken.cn/onlinePreview?url=" +
+        Base64.encode(options.url);
   }
   console.log("onLoad");
 });
@@ -74,7 +78,7 @@ const toRefresh = () => {
 onShareAppMessage(() => {
   return {
     title: '高清电子文档一键转换',
-    imageUrl: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/scantool/static/share-img.jpg',
+    imageUrl: 'https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/share2.jpg',
     path: '/pages/index/index',
   }
 })
