@@ -249,7 +249,7 @@ export default {
       this.drawing = true;
       await this.sleep(2000)
 
-      $http.post('https://api.wiiken.cn/api/open/order/cashgift/lucky_draw', {
+      $http.post('https://sspi.zyyttech.cn/api/open/order/cashgift/lucky_draw', {
         external_agreement_no: this.sign_order_no,
       }, {
         showErrorDialog: true

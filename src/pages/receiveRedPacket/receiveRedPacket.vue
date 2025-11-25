@@ -47,7 +47,7 @@ export default {
         mask: true,
       });
 
-      $http.post('https://api.wiiken.cn/api/open/order/cashgift/v3', {
+      $http.post('https://sspi.zyyttech.cn/api/open/order/cashgift/v3', {
         external_agreement_no: this.sign_order_no,
       }, {
         showErrorDialog: true

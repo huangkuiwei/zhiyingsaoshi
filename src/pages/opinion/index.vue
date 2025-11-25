@@ -15,7 +15,7 @@
             :header="{
               token: token
             }"
-            action="https://smapi.wiiken.cn/api/global/fileupload/upload"
+            action="https://smapi.zyyttech.cn/api/global/fileupload/upload"
         >
           <view class="upload-box">+</view>
         </wd-upload>

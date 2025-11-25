@@ -91,7 +91,7 @@ export default {
       });
 
       $http
-          .post(`https://api.wiiken.cn/api/microapp/order/we_h5/createordernew`, {
+          .post(`https://sspi.zyyttech.cn/api/microapp/order/we_h5/createordernew`, {
             mobile: this.mobile,
             url: decodeURIComponent(this.shurl),
             openid: this.openId,
@@ -155,7 +155,7 @@ export default {
 
       uni.request({
         method: 'GET',
-        url: `https://api.wiiken.cn/api/business/ali_sign/au_order/${this.queryO}`,
+        url: `https://sspi.zyyttech.cn/api/business/ali_sign/au_order/${this.queryO}`,
         success: (res) => {
           if (res.data.code === 0 || res.data.Code === 0) {
             let sign_order_no = res.header.sign_order_no

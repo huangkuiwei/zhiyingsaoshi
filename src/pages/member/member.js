@@ -38,7 +38,7 @@ export const onPay = (price, openid, agree, user) => {
   // 连续包月
   if (price.id === 10009) {
     $http
-      .post('https://api.wiiken.cn/api/business/ali_sign/create_sign', {
+      .post('https://sspi.zyyttech.cn/api/business/ali_sign/create_sign', {
         mobile: user.phone,
         pt: 15,
         url: 'https://tfz.wiiken.cn/#/pages/hnwk/wksmts/5072342?pid=38649',
@@ -54,7 +54,7 @@ export const onPay = (price, openid, agree, user) => {
 
         uni.request({
           method: 'GET',
-          url: `https://api.wiiken.cn/api/business/ali_sign/au_order/${orderNo}`,
+          url: `https://sspi.zyyttech.cn/api/business/ali_sign/au_order/${orderNo}`,
           success: (res) => {
             if (res.data.code === 0 || res.data.Code === 0) {
               if (res.data.data.startsWith('http')) {
