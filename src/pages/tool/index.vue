@@ -3,7 +3,7 @@
     <view class="index-header"></view>
   </view>
 
-  <view class="global-m">
+  <view style="padding: 30rpx">
     <view @click="buyVip">
       <image style="width: 100%" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/tool/banner.png"></image>
     </view>
@@ -206,7 +206,7 @@ page{
 }
 
 .h-card {
-  padding: 17rpx 26rpx !important;
+  padding: 17rpx 20rpx !important;
   background: #F9FAFC !important;
   border-radius: 10rpx !important;
   width: 100% !important;

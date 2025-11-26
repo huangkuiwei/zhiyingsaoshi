@@ -12,8 +12,8 @@ import uniIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue'
 export function createApp() {
 	const app = createSSRApp(App);
 	app.config.globalProperties.$ossUrl = 'https://yonganpicture.oss-cn-shenzhen.aliyuncs.com/';
-	app.config.globalProperties.$viewUrl = 'https://file.wiiken.cn/onlinePreview?url=';
-	app.config.globalProperties.$picsUrl = 'https://file.wiiken.cn/picturesPreview?urls=';
+	app.config.globalProperties.$viewUrl = 'https://file.zyyttech.cn/onlinePreview?url=';
+	app.config.globalProperties.$picsUrl = 'https://file.zyyttech.cn/picturesPreview?urls=';
 	app.component('uni-popup', uniPopup);
 	app.component('uni-popup-dialog', uniPopupDialog);
 	app.component('uni-transition', uniTransition);

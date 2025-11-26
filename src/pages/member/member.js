@@ -35,78 +35,83 @@ export const onPay = (price, openid, agree, user) => {
     mask: true,
   })
 
-  // 连续包月
+  // TODO 连续包月
   if (price.id === 10009) {
-    $http
-      .post('https://sspi.zyyttech.cn/api/business/ali_sign/create_sign', {
-        mobile: user.phone,
-        pt: 15,
-        url: 'https://tfz.wiiken.cn/#/pages/hnwk/wksmts/5072342?pid=38649',
-        appid: uni.getAccountInfoSync().miniProgram.appId,
-        system_type: uni.getDeviceInfo().platform === 'ios' ? 'ios' : 'android',
-        openid: openid,
-        user_agent:
-          'Mozilla/5.0 (Linux; Android 8.1.0; vivo Y85A Build/OPM1.171019.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/122.0.6261.120 Mobile Safari/537.36 XWEB/1220099 MMWEBSDK/20240404 MMWEBID/106 MicroMessenger/8.0.49.2600(0x28003133) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64',
-      })
-      .then((res) => {
-        let query = getQueryParam(res.data, 'query');
-        let orderNo = query.split('=')[1];
+    // $http
+    //   .post('https://sspi.zyyttech.cn/api/business/ali_sign/create_sign', {
+    //     mobile: user.phone,
+    //     pt: 15,
+    //     url: 'https://tfz.wiiken.cn/#/pages/hnwk/wksmts/5072342?pid=38649',
+    //     appid: uni.getAccountInfoSync().miniProgram.appId,
+    //     system_type: uni.getDeviceInfo().platform === 'ios' ? 'ios' : 'android',
+    //     openid: openid,
+    //     user_agent:
+    //       'Mozilla/5.0 (Linux; Android 8.1.0; vivo Y85A Build/OPM1.171019.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/122.0.6261.120 Mobile Safari/537.36 XWEB/1220099 MMWEBSDK/20240404 MMWEBID/106 MicroMessenger/8.0.49.2600(0x28003133) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64',
+    //   })
+    //   .then((res) => {
+    //     let query = getQueryParam(res.data, 'query');
+    //     let orderNo = query.split('=')[1];
+    //
+    //     uni.request({
+    //       method: 'GET',
+    //       url: `https://sspi.zyyttech.cn/api/business/ali_sign/au_order/${orderNo}`,
+    //       success: (res) => {
+    //         if (res.data.code === 0 || res.data.Code === 0) {
+    //           if (res.data.data.startsWith('http')) {
+    //             uni.navigateTo({
+    //               url: `/pages/webview/webview?src=${encodeURIComponent(res.data.data)}`,
+    //             });
+    //           } else {
+    //             let params = JSON.parse(res.data.data);
+    //             console.log(params, 'params');
+    //
+    //             uni.navigateToMiniProgram({
+    //               appId: 'wxbd687630cd02ce1d',
+    //               path: 'pages/index/index',
+    //               extraData: {
+    //                 appid: params.appid,
+    //                 contract_code: params.contract_code,
+    //                 contract_display_account: params.contract_display_account,
+    //                 mch_id: params.mch_id,
+    //                 notify_url: params.notify_url,
+    //                 plan_id: params.plan_id,
+    //                 request_serial: params.request_serial,
+    //                 timestamp: Number(params.timestamp),
+    //                 sign: params.sign,
+    //                 // return_web: params.return_web,
+    //                 // version: params.version,
+    //               },
+    //               success(res) {
+    //                 // 成功跳转到签约小程序
+    //                 console.log(params, res, 'success');
+    //               },
+    //               fail(res) {
+    //                 // 未成功跳转到签约小程序
+    //                 console.log(res, 'fail');
+    //               },
+    //             });
+    //           }
+    //         } else {
+    //           uni.showToast({
+    //             title: res.data.msg || res.data.Msg,
+    //             icon: 'none',
+    //             mask: true,
+    //           });
+    //         }
+    //       },
+    //       complete: () => {
+    //         uni.hideLoading();
+    //       },
+    //     });
+    //   })
+    //   .catch(() => {
+    //     uni.hideLoading();
+    //   });
 
-        uni.request({
-          method: 'GET',
-          url: `https://sspi.zyyttech.cn/api/business/ali_sign/au_order/${orderNo}`,
-          success: (res) => {
-            if (res.data.code === 0 || res.data.Code === 0) {
-              if (res.data.data.startsWith('http')) {
-                uni.navigateTo({
-                  url: `/pages/webview/webview?src=${encodeURIComponent(res.data.data)}`,
-                });
-              } else {
-                let params = JSON.parse(res.data.data);
-                console.log(params, 'params');
-
-                uni.navigateToMiniProgram({
-                  appId: 'wxbd687630cd02ce1d',
-                  path: 'pages/index/index',
-                  extraData: {
-                    appid: params.appid,
-                    contract_code: params.contract_code,
-                    contract_display_account: params.contract_display_account,
-                    mch_id: params.mch_id,
-                    notify_url: params.notify_url,
-                    plan_id: params.plan_id,
-                    request_serial: params.request_serial,
-                    timestamp: Number(params.timestamp),
-                    sign: params.sign,
-                    // return_web: params.return_web,
-                    // version: params.version,
-                  },
-                  success(res) {
-                    // 成功跳转到签约小程序
-                    console.log(params, res, 'success');
-                  },
-                  fail(res) {
-                    // 未成功跳转到签约小程序
-                    console.log(res, 'fail');
-                  },
-                });
-              }
-            } else {
-              uni.showToast({
-                title: res.data.msg || res.data.Msg,
-                icon: 'none',
-                mask: true,
-              });
-            }
-          },
-          complete: () => {
-            uni.hideLoading();
-          },
-        });
-      })
-      .catch(() => {
-        uni.hideLoading();
-      });
+    uni.showModal({
+      content: '暂不支持连续包月购买',
+      showCancel: false,
+    })
 
     return
   }

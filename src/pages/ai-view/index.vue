@@ -24,13 +24,13 @@ onLoad((options) => {
     //   src.value = decodeURIComponent(options.url);
     // } else {
     //   src.value =
-    //   "https://file.wiiken.cn/onlinePreview?url=" +
+    //   "https://file.zyyttech.cn/onlinePreview?url=" +
     //   Base64.encode(options.url);
     //   console.log( src.value );
     // }
 
     src.value =
-        "https://file.wiiken.cn/onlinePreview?url=" +
+        "https://file.zyyttech.cn/onlinePreview?url=" +
         Base64.encode(options.url);
   }
   console.log("onLoad");

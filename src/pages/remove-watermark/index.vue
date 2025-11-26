@@ -49,7 +49,8 @@
       <view class="close">
         <image @click="countTipDialog = false" mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/icon/close.png" />
       </view>
-      <image src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/icon/vip-dialog-bg.png" mode="widthFix" />
+      <image v-if="count >= 3" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/icon/vip-dialog-bg.png" mode="widthFix" />
+      <image v-else src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/icon/vip-dialog-bg2.png" mode="widthFix" />
       <view class="btn" @click="toRouter('/pages/member/index')">
         <image mode="widthFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/icon/buy-btn.png" />
       </view>

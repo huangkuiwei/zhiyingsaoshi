@@ -8,8 +8,8 @@ export default {
 
     let isModalShowing = false;
     uni.setStorageSync('$ossUrl', 'https://yonganpicture.oss-cn-shenzhen.aliyuncs.com/')
-    uni.setStorageSync('$viewUrl', 'https://file.wiiken.cn/onlinePreview?url=')
-    uni.setStorageSync('$picsUrl', 'https://file.wiiken.cn/picturesPreview?urls=')
+    uni.setStorageSync('$viewUrl', 'https://file.zyyttech.cn/onlinePreview?url=')
+    uni.setStorageSync('$picsUrl', 'https://file.zyyttech.cn/picturesPreview?urls=')
     // uni.addInterceptor('request', {
     //   invoke(args) {
     //

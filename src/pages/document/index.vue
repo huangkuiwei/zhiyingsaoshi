@@ -1331,7 +1331,7 @@ page {
   .folder-list {
     background: #ffffff;
     border-radius: 10rpx;
-    padding: 10rpx 20rpx 10rpx;
+    padding: 30rpx 20rpx;
   }
 }
 
