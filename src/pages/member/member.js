@@ -30,13 +30,13 @@ export const onPay = (price, openid, agree, user) => {
     return
   }
 
-  uni.showLoading({
-    title: '正在开通会员',
-    mask: true,
-  })
-
   // TODO 连续包月
   if (price.id === 10009) {
+    // uni.showLoading({
+    //   title: '正在开通会员',
+    //   mask: true,
+    // })
+
     // $http
     //   .post('https://sspi.zyyttech.cn/api/business/ali_sign/create_sign', {
     //     mobile: user.phone,
@@ -115,6 +115,11 @@ export const onPay = (price, openid, agree, user) => {
 
     return
   }
+
+  uni.showLoading({
+    title: '正在开通会员',
+    mask: true,
+  })
 
   $http.post('api/user/order/pay/create', {
     product_id: price.id,
