@@ -109,12 +109,22 @@
         </template>
         <view></view>
       </wd-cell>
-      <wd-cell is-link @click="toMessage">
+      <wd-cell is-link @click="toMessage" :customStyle="{ paddingBottom: '16rpx' }">
         <template #title>
           <text style="color: #333333; font-weight: bold; font-size: 30rpx">检查更新</text>
         </template>
         <template #icon>
           <image class="my-cell_img" mode="heightFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/m7.png"></image>
+        </template>
+        <view></view>
+      </wd-cell>
+
+      <wd-cell is-link @click="benefits">
+        <template #title>
+          <text style="color: #333333; font-weight: bold; font-size: 30rpx">领福利</text>
+        </template>
+        <template #icon>
+          <image class="my-cell_img" mode="heightFix" src="https://hnenjoy.oss-cn-shanghai.aliyuncs.com/zhiyingsaoshi/my/m8.png"></image>
         </template>
         <view></view>
       </wd-cell>
@@ -248,6 +258,12 @@ const toMessage = () => {
   msgRef.value.openMessage()
 }
 
+const benefits = () => {
+  uni.navigateTo({
+    url: `/pages/webview/webview?src=${encodeURIComponent('https://hy.zyyttech.cn')}`,
+  });
+}
+
 onShow(() => {
   $http.get('api/user/auth/userauth/info?referch=1').then(res => {
     let vip_info = res.data.vip_info
@@ -293,6 +309,7 @@ page {
   display: flex;
   flex-direction: column;
   --wot-message-box-width: 600rpx;
+  padding-bottom: 100rpx;
 }
 
 .my-nav{
@@ -374,7 +391,7 @@ page {
   // --wot-cell-title-fs: 0.9rem;
   flex-grow: 1;
   background: #FFFFFF;
-  padding: 40rpx 0 0 0;
+  padding: 30rpx 0 30rpx 0;
   border-radius: 30rpx;
 }
 .my-cell_img{
